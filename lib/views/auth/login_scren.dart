@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
@@ -179,24 +180,16 @@ class _LoginScrenState extends State<LoginScren> {
                           ),
                           TextButton(
                             onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Sign Up page will be connected next.',
-                                  ),
-                                ),
-                              );
+                              Navigator.pushNamed(context, AppRoutes.signup);
                             },
                             child: Text(
                               'Sign Up',
-                          
                               style: TextStyle(
                                 color: AppColors.primary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               ),
                             ),
-                            
                           ),
                         ],
                       ),
