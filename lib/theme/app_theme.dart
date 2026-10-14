@@ -17,13 +17,13 @@ class AppTheme {
         centerTitle: false,
       ),
 
-      // Text Theme
-      textTheme: TextTheme(
-        headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        bodyMedium: TextStyle(fontSize: 13),
-        bodySmall: TextStyle(fontSize: 12),
-        labelMedium: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-      ),
+      // // Text Theme
+      // textTheme: TextTheme(
+      //   headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      //   bodyMedium: TextStyle(fontSize: 13),
+      //   bodySmall: TextStyle(fontSize: 12),
+      //   labelMedium: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+      // ),
       //input filed theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
