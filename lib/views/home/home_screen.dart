@@ -1,0 +1,358 @@
+import 'package:flutter/material.dart';
+import 'package:recipe_next/theme/app_colors.dart';
+import 'package:recipe_next/widget/custom_text_field.dart';
+
+class HomeScreen extends StatefulWidget {
+  const new({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController searchController = TextEditingController();
+  String selectedCatagory = 'All';
+
+  final List<String> categories = [
+    'All',
+    'Breakfast',
+    'Lunch',
+    'Evening Snack',
+    'Dinner',
+    'sweet',
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  left: 18,
+                  right: 18,
+                  top: 18,
+                  bottom: 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //header
+                    Row(
+                      children: [
+                        Container(
+                          height: 42,
+                          width: 42,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Image.asset("assets/images/logo.png"),
+                        ),
+                        SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'RecipeNest',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.text1,
+                              ),
+                            ),
+
+                            const SizedBox(height: 3),
+
+                            Text(
+                              'Offline Kitchen Assistant',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textsec,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      height: 48,
+                      padding: EdgeInsets.symmetric(horizontal: 13),
+                      decoration: BoxDecoration(
+                        color: AppColors.background,
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(color: AppColors.border),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.search,
+                            color: AppColors.textsec,
+                            size: 21,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: CustomTextField(
+                              hintText: 'Search recipe or ingredients...',
+                              controller: searchController,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 22),
+                    // Categories Heading
+                    Text(
+                      'Categories',
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.text1,
+                      ),
+                    ),
+                    SizedBox(height: 14),
+                    catagories(),
+                    SizedBox(height: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'All Saved Recipes',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.text1,
+                          ),
+                        ),
+                        Text(
+                          '1 recipes',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.textsec,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 18),
+                    //recipdummy
+                    recipeCard(
+                      recipeName: 'Chicken Biriyani',
+                      category: 'Lunch',
+                      cookingTime: '45 mins',
+                      difficulty: 'Medium',
+                      imageUrl: 'https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani-recipe.jpg',
+                      onFavouriteTap: () {
+                        setState(() {});
+                      },
+                      isFavourite: false,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      //floating acction button
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        backgroundColor: AppColors.primary,
+        icon: const Icon(Icons.add, color: Colors.white),
+        label: const Text(
+          'Add Recipe',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+
+  Widget catagories() {
+    return SizedBox(
+      height: 45,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        separatorBuilder: (context, index) {
+          return SizedBox(width: 30);
+        },
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          final isSelected = selectedCatagory == categories[index];
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedCatagory = categories[index];
+              });
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  categories[index],
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                    color: isSelected ? AppColors.primary : AppColors.textsec,
+                  ),
+                ),
+                SizedBox(height: 7),
+
+                if (isSelected)
+                  Container(
+                    height: 3,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  //reciepy card
+  Widget recipeCard({
+    required String recipeName,
+    required String category,
+    required String cookingTime,
+    required String difficulty,
+    required String imageUrl,
+    required VoidCallback onFavouriteTap,
+    required bool isFavourite,
+  }) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 15),
+      decoration: BoxDecoration(
+        color: AppColors.background,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Recipe Image and icon
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                child: Image.network(
+                  imageUrl,
+                  height: 140,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  // errorBuilder: (context, error, stackTrace) {
+                  //   return Container(
+                  //     height: 140,
+                  //     width: double.infinity,
+                  //     color: Color.fromARGB(255, 162, 6, 6),
+                  //     child: Icon(
+                  //       Icons.restaurant,
+                  //       size: 40,
+                  //       color: AppColors.textsec,
+                  //     ),
+                  //   );
+                  // },
+                ),
+              ),
+
+              //catagary label
+              Positioned(
+                left: 12,
+                bottom: 10,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.black87,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    category,
+                    style: TextStyle(color: Colors.white, fontSize: 11),
+                  ),
+                ),
+              ),
+
+              // Favourite Icon
+              Positioned(
+                top: 10,
+                right: 10,
+                child: InkWell(
+                  onTap: onFavouriteTap,
+                  child: CircleAvatar(
+                    radius: 17,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      isFavourite ? Icons.favorite : Icons.favorite_border,
+                      color: AppColors.primary,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // Recipe Details
+          Padding(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  recipeName,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.text1,
+                  ),
+                ),
+
+                const SizedBox(height: 14),
+
+                Row(
+                  children: [
+                    Icon(Icons.access_time, size: 15, color: AppColors.primary),
+                    const SizedBox(width: 5),
+
+                    Expanded(
+                      child: Text(
+                        cookingTime,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textsec,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 9,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF3E0),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        difficulty,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  // Recipe Name
+}

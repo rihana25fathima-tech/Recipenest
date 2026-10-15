@@ -27,7 +27,7 @@ class _LoginScrenState extends State<LoginScren> {
     } else {
      Navigator.pushReplacementNamed(
       context,
-      AppRoutes.profile);
+      AppRoutes.home);
     }
   }
 
