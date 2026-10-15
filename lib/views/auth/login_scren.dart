@@ -25,8 +25,9 @@ class _LoginScrenState extends State<LoginScren> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Please enter your password')));
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Login button is working!')));
+     Navigator.pushReplacementNamed(
+      context,
+      AppRoutes.profile);
     }
   }
 
