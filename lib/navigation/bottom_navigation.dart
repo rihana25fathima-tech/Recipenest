@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_next/theme/app_colors.dart';
+import 'package:recipe_next/views/favorite/favorite_screen.dart';
 import 'package:recipe_next/views/home/home_screen.dart';
 import 'package:recipe_next/views/profile/profile_screen.dart';
 
@@ -14,7 +15,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int  currentIndex = 0;
  final List<Widget> pages =  [
     HomeScreen(),
-    // FavouriteScreen(),
+    FavoriteScreen(),
     ProfileScreen(),
   ];
   @override
