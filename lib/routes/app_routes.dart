@@ -5,6 +5,8 @@ import 'package:recipe_next/views/auth/sign_screen.dart';
 import 'package:recipe_next/views/favorite/favorite_screen.dart';
 import 'package:recipe_next/views/home/home_screen.dart';
 import 'package:recipe_next/views/profile/profile_screen.dart';
+import 'package:recipe_next/views/recipe/add_ingredient_screen.dart';
+import 'package:recipe_next/views/recipe/add_recipe_screen.dart';
 import 'package:recipe_next/views/splash/splashscreen.dart';
 
 class AppRoutes {
@@ -15,6 +17,8 @@ class AppRoutes {
   static String home = '/home';
   static String favorite = '/favorite';
   static String bottomNavigationBar = '/bottomNavigationBar';
+  static String addRecipeScreen = '/addRecipeScreen';
+  static String addIngredientScreen ='/addIngredientScreen';
     static Map<String,WidgetBuilder>routes = {
         splash:(context) =>  Splashscreen(),
         login:(context) => LoginScren(),
@@ -23,5 +27,7 @@ class AppRoutes {
         home:(context) => HomeScreen(),
         favorite:(context) => FavoriteScreen(),
         bottomNavigationBar:(context) => BottomNavigation(),
+        addRecipeScreen:(context) => AddRecipeScreen(),
+        addIngredientScreen:(context) => AddIngredientScreen(),
     };
 }

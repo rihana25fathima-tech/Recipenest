@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
 
@@ -157,7 +158,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       //floating acction button
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context,AppRoutes.addRecipeScreen);
+
+        },
         backgroundColor: AppColors.primary,
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text(
