@@ -30,8 +30,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -251,23 +250,21 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   _buildDifficult('Hard'),
                 ],
               ),
-               SizedBox(height: 30),
+              SizedBox(height: 30),
 
-// Next Button
-CustomButton(
-  text: 'Next: Add Ingredients',
-  onpressed: () {
-    Navigator.pushNamed(context, AppRoutes.addIngredientScreen);
-    ScaffoldMessenger.of(context).showSnackBar(
-     SnackBar(
-        content: Text('Ingredients page coming next!'),
-      ),
-    );
-  },
-  icon: Icons.arrow_forward,
-),
+              // Next Button
+              CustomButton(
+                text: 'Next: Add Ingredients',
+                onpressed: () {
+                  Navigator.pushNamed(context, AppRoutes.addIngredientScreen);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Ingredients page coming next!')),
+                  );
+                },
+                icon: Icons.arrow_forward,
+              ),
 
-const SizedBox(height: 20),
+             SizedBox(height: 20),
             ],
           ),
         ),
@@ -297,7 +294,6 @@ const SizedBox(height: 20),
               color: active ? AppColors.primary : const Color(0xFF8A9AB8),
             ),
           ),
-          
         ],
       ),
     );
