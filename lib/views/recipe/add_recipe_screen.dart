@@ -250,22 +250,34 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   _buildDifficult('Hard'),
                 ],
               ),
-              SizedBox(height: 30),
 
               // Next Button
-              CustomButton(
-                text: 'Next: Add Ingredients',
-                onpressed: () {
-                  Navigator.pushNamed(context, AppRoutes.addIngredientScreen);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Ingredients page coming next!')),
-                  );
-                },
-                icon: Icons.arrow_forward,
-              ),
-
-             SizedBox(height: 20),
+              // CustomButton(
+              //   text: 'Next: Add Ingredients',
+              //   onpressed: () {
+              //     Navigator.pushNamed(context, AppRoutes.addIngredientScreen);
+              //     ScaffoldMessenger.of(context).showSnackBar(
+              //       SnackBar(content: Text('Ingredients page coming next!')),
+              //     );
+              //   },
+              //   icon: Icons.arrow_forward,
+              // ),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+
+          color: AppColors.background,
+          child: CustomButton(
+            text: 'Next: Add Ingredients',
+            onpressed: () {
+              Navigator.pushNamed(context, AppRoutes.addIngredientScreen);
+            
+            },
+            icon: Icons.arrow_forward,
           ),
         ),
       ),

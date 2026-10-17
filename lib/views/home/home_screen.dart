@@ -249,18 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 140,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  // errorBuilder: (context, error, stackTrace) {
-                  //   return Container(
-                  //     height: 140,
-                  //     width: double.infinity,
-                  //     color: Color.fromARGB(255, 162, 6, 6),
-                  //     child: Icon(
-                  //       Icons.restaurant,
-                  //       size: 40,
-                  //       color: AppColors.textsec,
-                  //     ),
-                  //   );
-                  // },
+              
                 ),
               ),
 

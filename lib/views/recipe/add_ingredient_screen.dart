@@ -168,13 +168,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                       width: double.infinity,
                       child: OutlinedButton.icon(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Please enter ingredient and quantity',
-                              ),
-                            ),
-                          );
+                         
                         },
                         icon: Icon(
                           Icons.add,
@@ -232,7 +226,17 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
               _buildList("3", "Pototao", "4"),
               SizedBox(height: 8),
               _buildList("3", "Pototao", "4"),
-              Row(
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 10,
+        ),
+        color: AppColors.background,
+        child: Row(
                 children: [
                   Expanded(
                     flex: 2,
@@ -257,10 +261,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
-      ),
+      )),
     );
   }
 
