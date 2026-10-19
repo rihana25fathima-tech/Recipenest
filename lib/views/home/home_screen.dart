@@ -139,6 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 18),
                     //recipdummy
                     recipeCard(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.recipeDetailsScreen);
+                    },
                       recipeName: 'Chicken Biriyani',
                       category: 'Lunch',
                       cookingTime: '45 mins',
@@ -228,8 +231,11 @@ class _HomeScreenState extends State<HomeScreen> {
     required String imageUrl,
     required VoidCallback onFavouriteTap,
     required bool isFavourite,
+    required VoidCallback onTap,
   }) {
-    return Container(
+    return InkWell(
+      onTap: onTap,
+  child:   Container(
       margin: EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
         color: AppColors.background,
@@ -345,7 +351,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+  )
+    
     );
   }
-  // Recipe Name
 }

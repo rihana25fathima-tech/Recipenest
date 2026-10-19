@@ -12,48 +12,41 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  int  currentIndex = 0;
- final List<Widget> pages =  [
-    HomeScreen(),
-    FavoriteScreen(),
-    ProfileScreen(),
-  ];
+  int currentIndex = 0;
+  List<Widget> pages = [HomeScreen(), FavoriteScreen(), ProfileScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body: IndexedStack(
-      index: currentIndex,
-      children: pages,
-    ),
-    bottomNavigationBar: 
-    BottomNavigationBar(
-      currentIndex: currentIndex,
-      onTap: (value) {
-        setState(() {
-          currentIndex = value;
-        });
-      },
-      selectedItemColor: AppColors.primary,
-      unselectedItemColor: Colors.grey,
-      type: BottomNavigationBarType.fixed,
+      body: IndexedStack(index: currentIndex, children: pages),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (value) {
+          setState(() {
+            currentIndex = value;
+          });
+        },
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
 
-      items: [
-        BottomNavigationBarItem(icon: Icon( Icons.home_outlined),
-        activeIcon: Icon(Icons.home),
-        label: "Home",
-        ),
-         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
-          activeIcon: Icon(Icons.favorite),
-          label: 'Favourite',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
-          activeIcon: Icon(Icons.person),
-          label: 'Account',
-        ),
-      ],
-    )
-       );
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            activeIcon: Icon(Icons.favorite),
+            label: 'Favourite',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: 'Account',
+          ),
+        ],
+      ),
+    );
   }
 }

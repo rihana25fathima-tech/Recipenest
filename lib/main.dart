@@ -9,15 +9,15 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+       title: 'Flutter Demo',
        theme: AppTheme.lightTheme,
        initialRoute: AppRoutes.splash,
        routes: AppRoutes.routes,
-      debugShowCheckedModeBanner: false,
+       debugShowCheckedModeBanner: false,
     );
   }
 }
