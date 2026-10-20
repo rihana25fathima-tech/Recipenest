@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             onTap: () {},
                           ),
                         ),
-                        SizedBox(width: 12),
+                        SizedBox(width: 11),
                         Expanded(
                           child: _buildStatCard(
                             icon: Icons.favorite,
@@ -293,7 +293,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required VoidCallback onTap,
   }) {
     return Container(
-      constraints: BoxConstraints(minHeight: 1),
+      constraints: BoxConstraints(minHeight: 10),
       padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.white,

@@ -17,19 +17,7 @@ class _LoginScrenState extends State<LoginScren> {
 
   bool isPasswordVisible = false;
 
-  void login() {
-    if (emailcontroler.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Please enter your email')));
-    } else if (passwordcontroler.text.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Please enter your password')));
-    } else {
-     Navigator.pushReplacementNamed(
-      context,
-      AppRoutes.bottomNavigationBar);
-    }
-  }
+
 
   @override
   void dispose() {
@@ -161,7 +149,11 @@ class _LoginScrenState extends State<LoginScren> {
                         width: double.infinity,
                         child: CustomButton(
                           text: 'Login',
-                          onpressed: login,
+                          onpressed: () {
+                            Navigator.pushReplacementNamed(
+      context,
+      AppRoutes.bottomNavigationBar);
+                          },
                           icon: Icons.login,
                         ),
                       ),
