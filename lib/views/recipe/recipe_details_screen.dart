@@ -382,7 +382,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
               shape: BoxShape.circle,
             ),
             child: Text(
-              '$number',
+              'number',
               style: const TextStyle(
                 color: Color(0xFFE85D3F),
                 fontWeight: FontWeight.bold,

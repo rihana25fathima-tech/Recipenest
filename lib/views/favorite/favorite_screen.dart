@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_next/theme/app_colors.dart';
+import 'package:recipe_next/widget/custom_text_field.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const new({super.key});
@@ -9,62 +10,88 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
+  TextEditingController? get searchController => null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-           backgroundColor: AppColors.background,
+      backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  left: 18,
-                  right: 18,
-                  top: 18,
-                  bottom: 20,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                                                Text(
-                              'Favourite',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.text1,
-                              ),
-                            ),
-                            SizedBox(height: 3,),
-                            Text(
-                              'Your Favourite recipes collection',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: AppColors.textsec,
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                               recipeCard(
-                      recipeName: 'Chicken Biriyani',
-                      category: 'Lunch',
-                      cookingTime: '45 mins',
-                      difficulty: 'Medium',
-                      imageUrl: 'https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani-recipe.jpg',
-                      onFavouriteTap: () {
-                        setState(() {});
-                      },
-                      isFavourite: false,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    borderRadius: BorderRadius.circular(30),
+                    child: Container(
+                      width: 38,
+                      height: 38,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFF3DFD7),
+                        border: Border.all(color: Color(0xFFF3DFD7)),
+                      ),
+                      child: Icon(Icons.arrow_back, size: 19),
                     ),
-                  ]
-                )
-              )
-            )
-          ]
-        )
-      )
+                  ),
+                  SizedBox(width: 18),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Favourite',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.text1,
+                          ),
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          'All the recipes you love, nestled in one place.',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textsec,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 15),
+              CustomTextField(
+                prefixIcon: Icons.search,
+                hintText: 'Search recipe or ingredients...',
+                controller: searchController,
+              ),
+              SizedBox(height: 25),
+              recipeCard(
+                recipeName: 'Chicken Biriyani',
+                category: 'Lunch',
+                cookingTime: '45 mins',
+                difficulty: 'Medium',
+                imageUrl: 'https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani-recipe.jpg',
+                onFavouriteTap: () {
+                  setState(() {});
+                },
+                isFavourite: false,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
-   Widget recipeCard({
+
+  Widget recipeCard({
     required String recipeName,
     required String category,
     required String cookingTime,
@@ -93,7 +120,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   height: 140,
                   width: double.infinity,
                   fit: BoxFit.cover,
-              
                 ),
               ),
 
@@ -184,11 +210,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     ),
                   ],
                 ),
-              ]
-            )
-          )
-        ]
-      )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

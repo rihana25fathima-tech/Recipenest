@@ -78,33 +78,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    Container(
-                      height: 48,
-                      padding: EdgeInsets.symmetric(horizontal: 13),
-                      decoration: BoxDecoration(
-                        color: AppColors.background,
-                        borderRadius: BorderRadius.circular(25),
-                        border: Border.all(color: AppColors.border),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.search,
-                            color: AppColors.textsec,
-                            size: 21,
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: CustomTextField(
-                              hintText: 'Search recipe or ingredients...',
-                              controller: searchController,
-                            ),
-                          ),
-                        ],
-                      ),
+                    // Container(
+                    //   height: 48,
+                    //   padding: EdgeInsets.symmetric(horizontal: 13),
+                    // decoration: BoxDecoration(
+                    //   color: AppColors.background,
+                    //   borderRadius: BorderRadius.circular(25),
+                    //   border: Border.all(color: AppColors.border),
+                    // ),
+
+                    CustomTextField(
+                      prefixIcon: Icons.search,
+                      hintText: 'Search recipe or ingredients...',
+                      controller: searchController,
                     ),
-                    SizedBox(height: 22),
-                    // Categories Heading
+                    // ),
+
                     Text(
                       'Categories',
                       style: TextStyle(
@@ -139,9 +128,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 18),
                     //recipdummy
                     recipeCard(
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.recipeDetailsScreen);
-                    },
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.recipeDetailsScreen,
+                        );
+                      },
                       recipeName: 'Chicken Biriyani',
                       category: 'Lunch',
                       cookingTime: '45 mins',
@@ -162,8 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //floating acction button
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.pushNamed(context,AppRoutes.addRecipeScreen);
-
+          Navigator.pushNamed(context, AppRoutes.addRecipeScreen);
         },
         backgroundColor: AppColors.primary,
         icon: const Icon(Icons.add, color: Colors.white),
@@ -235,124 +226,126 @@ class _HomeScreenState extends State<HomeScreen> {
   }) {
     return InkWell(
       onTap: onTap,
-  child:   Container(
-      margin: EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Recipe Image and icon
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                child: Image.network(
-                  imageUrl,
-                  height: 140,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-              
-                ),
-              ),
-
-              //catagary label
-              Positioned(
-                left: 12,
-                bottom: 10,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.black87,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    category,
-                    style: TextStyle(color: Colors.white, fontSize: 11),
-                  ),
-                ),
-              ),
-
-              // Favourite Icon
-              Positioned(
-                top: 10,
-                right: 10,
-                child: InkWell(
-                  onTap: onFavouriteTap,
-                  child: CircleAvatar(
-                    radius: 17,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      isFavourite ? Icons.favorite : Icons.favorite_border,
-                      color: AppColors.primary,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          // Recipe Details
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Container(
+        margin: EdgeInsets.only(bottom: 15),
+        decoration: BoxDecoration(
+          color: AppColors.background,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Recipe Image and icon
+            Stack(
               children: [
-                Text(
-                  recipeName,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.text1,
+                ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                  child: Image.network(
+                    imageUrl,
+                    height: 140,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
                   ),
                 ),
 
-                const SizedBox(height: 14),
+                //catagary label
+                Positioned(
+                  left: 12,
+                  bottom: 10,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      category,
+                      style: TextStyle(color: Colors.white, fontSize: 11),
+                    ),
+                  ),
+                ),
 
-                Row(
-                  children: [
-                    Icon(Icons.access_time, size: 15, color: AppColors.primary),
-                    const SizedBox(width: 5),
-
-                    Expanded(
-                      child: Text(
-                        cookingTime,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textsec,
-                        ),
+                // Favourite Icon
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: InkWell(
+                    onTap: onFavouriteTap,
+                    child: CircleAvatar(
+                      radius: 17,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        isFavourite ? Icons.favorite : Icons.favorite_border,
+                        color: AppColors.primary,
+                        size: 20,
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 9,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFF3E0),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        difficulty,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+
+            // Recipe Details
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    recipeName,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.text1,
+                    ),
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.access_time,
+                        size: 15,
+                        color: AppColors.primary,
+                      ),
+                      const SizedBox(width: 5),
+
+                      Expanded(
+                        child: Text(
+                          cookingTime,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textsec,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 9,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFF3E0),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          difficulty,
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-  )
-    
     );
   }
 }
