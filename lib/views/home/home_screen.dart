@@ -92,8 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       hintText: 'Search recipe or ingredients...',
                       controller: searchController,
                     ),
-                    // ),
-
+                    SizedBox(height: 15,),
+              
                     Text(
                       'Categories',
                       style: TextStyle(

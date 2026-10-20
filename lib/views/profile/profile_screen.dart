@@ -16,80 +16,199 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: AppColors.background,
 
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Heading
-              Text(
-                'User Profile',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.text1,
-                ),
+        // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        child: Column(
+          children: [
+            //header
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 246, 229, 229),
               ),
-              SizedBox(height: 8),
-
-              Text(
-                'Manage your session, preferences & storage',
-                style: TextStyle(fontSize: 12, color: AppColors.textsec),
-              ),
-              SizedBox(height: 28),
-
-              // Profile Card
-              _buildProfileCard(),
-              SizedBox(height: 16),
-              Row(
+              child: Row(
                 children: [
+                  Icon(
+                    Icons.soup_kitchen_rounded,
+                    color: Color(0xFFE43D20),
+                    size: 23,
+                  ),
+
+                  SizedBox(width: 16),
                   Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.menu_book_outlined,
-                      count: '1',
-                      title: 'Total Recipes',
+                    child: Text(
+                      'Account',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.text1,
+                      ),
                     ),
                   ),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.favorite_border,
-                      count: '1',
-                      title: 'Favourite Recipes',
+                  Container(
+                    height: 36,
+                    width: 36,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFBD260D),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.person_outline_rounded,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              Divider(color: AppColors.border),
-              SizedBox(height: 8),
-              _buildMenuItem(
-                icon: Icons.favorite_border,
-                title: 'My Favourite Recipes',
-                trailing: '1 item',
-                onTap: () {
-                  Navigator.pushNamed(context, AppRoutes.login);
-                },
+            ),
+
+            // Heading
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'My Account',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.text1,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+
+                              Text(
+                                'Your personal cooking space',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.textsec,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 42,
+                          width: 42,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFFFE8E2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.restaurant_menu_rounded,
+                            color: Color(0xFFE43D20),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    // Profile Card
+                    _buildProfileCard(),
+
+                    SizedBox(height: 18),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildStatCard(
+                            icon: Icons.menu_book,
+                            count: '1',
+                            title: 'Total Recipes',
+                            onTap: () {},
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStatCard(
+                            icon: Icons.favorite,
+                            count: '1',
+                            title: 'Favourite Recipes',
+                            onTap: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 24),
+                    Row(
+                      children: [
+                        const Text(
+                          'My Cooking Space',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF252538),
+                          ),
+                        ),
+                        const SizedBox(width: 7),
+                        Container(
+                          height: 7,
+                          width: 7,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFE43D20),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const Spacer(),
+                        const Text(
+                          'PREFERENCES',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF8290AA),
+                            letterSpacing: 0.4,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 12),
+
+                    const SizedBox(height: 8),
+                    _buildMenuItem(
+                      icon: Icons.favorite,
+                      title: 'My Favourite Recipes',
+                      trailing: '1 item',
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoutes.favorite);
+                      },
+                    ),
+                    // About RecipeNest
+                    _buildMenuItem(
+                      icon: Icons.info,
+                      title: 'About RecipeNest',
+                      onTap: () {
+                        _showAboutDialog(context);
+                      },
+                    ),
+                    //my recipe
+                    _buildMenuItem(icon:Icons.restaurant_rounded , 
+                    title: "My Recipes",
+                     onTap: () {
+                       Navigator.pushNamed(context, AppRoutes.bottomNavigationBar);
+                     },),
+                    // Logout
+                    _buildMenuItem(
+                      icon: Icons.logout,
+                      title: 'Logout',
+                      // isLogout: true,
+                      onTap: () {
+                        _showLogoutDialog(context);
+                      },
+                    ),
+                  ],
+                ),
               ),
-              // About RecipeNest
-              _buildMenuItem(
-                icon: Icons.info_outline,
-                title: 'About RecipeNest',
-                onTap: () {
-                  _showAboutDialog(context);
-                },
-              ),
-              // Logout
-              _buildMenuItem(
-                icon: Icons.logout,
-                title: 'Logout',
-                // isLogout: true,
-                onTap: () {
-                  _showLogoutDialog(context);
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -98,53 +217,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //profilcard
   Widget _buildProfileCard() {
     return Container(
-      padding: EdgeInsets.all(14),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.text,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Color(0xFFF0F0F0)),
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: Color.fromARGB(255, 236, 178, 178)),
       ),
-      child: Row(
+      child: Column(
         children: [
-          // Default Avatar
-          Container(
-            height: 46,
-            width: 46,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.person,
-              color: const Color.fromARGB(255, 243, 238, 238),
-              size: 25,
-            ),
-          ),
-          SizedBox(height: 10),
-          // User Details
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'User name',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.text1,
-                  ),
+          Row(
+            children: [
+              // Default Avatar
+              Container(
+                height: 66,
+                width: 66,
+                // alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(22),
                 ),
+                child: Icon(
+                  Icons.person_rounded,
+                  color: const Color.fromARGB(255, 243, 238, 238),
+                  size: 25,
+                ),
+              ),
+              SizedBox(width: 14),
+              // User Details
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            'User name',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.text1,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
 
-                SizedBox(height: 5),
-                Text(
-                  'user email',
-                  style: TextStyle(fontSize: 11, color: AppColors.textsec),
+                    Text(
+                      'user email',
+                      style: TextStyle(fontSize: 11, color: AppColors.text1),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.chevron_right,
+                  color: Color.fromARGB(255, 36, 34, 34),
+                ),
+              ),
+            ],
           ),
-          Icon(Icons.chevron_right, color: Color(0xFFB0B0B0)),
         ],
       ),
     );
@@ -155,51 +290,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required IconData icon,
     required String count,
     required String title,
+    required VoidCallback onTap,
   }) {
     return Container(
-      constraints: BoxConstraints(minHeight: 11),
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      constraints: BoxConstraints(minHeight: 1),
+      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Color(0xFFF0F0F0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 8,
-            offset: Offset(0, 3),
-          ),
-        ],
+        border: Border.all(color: AppColors.primary),
       ),
 
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Row(
         children: [
-          // Icon Background
           Container(
             padding: EdgeInsets.all(9),
             decoration: BoxDecoration(
-              color: Color(0xFFFFF2EF),
-              shape: BoxShape.circle,
+              color: Color.fromARGB(255, 241, 216, 211),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, size: 19, color: AppColors.primary),
           ),
-          SizedBox(height: 8),
-          // Fixed Count
-          Text(
-            count,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary,
-            ),
-          ),
-          SizedBox(height: 5),
-          // Title
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 11, color: AppColors.textsec),
+          SizedBox(width: 10),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 8),
+              // Fixed Count
+              Text(
+                count,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primary,
+                ),
+              ),
+              SizedBox(height: 5),
+              // Title
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 13, color: AppColors.text1),
+              ),
+            ],
           ),
         ],
       ),
