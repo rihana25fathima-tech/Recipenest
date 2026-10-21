@@ -69,7 +69,7 @@ class _SplashscreenState extends State<Splashscreen> {
               child: Text(
                 'Loading recipes & kitchen data...',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.text, fontSize: 15),
+                style: TextStyle(color: AppColors.text, fontSize: 16),
               ),
             ),
           ],

@@ -11,7 +11,7 @@ class AddInstructions extends StatefulWidget {
 }
 
 class _AddInstructionsState extends State<AddInstructions> {
-  TextEditingController? get instructionController => null;
+  TextEditingController instructionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

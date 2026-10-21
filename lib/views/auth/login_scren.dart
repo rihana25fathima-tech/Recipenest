@@ -17,8 +17,6 @@ class _LoginScrenState extends State<LoginScren> {
 
   bool isPasswordVisible = false;
 
-
-
   @override
   void dispose() {
     emailcontroler.dispose();
@@ -36,7 +34,7 @@ class _LoginScrenState extends State<LoginScren> {
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - 24,
+                  minHeight: constraints.maxHeight - 20,
                 ),
                 child: IntrinsicHeight(
                   child: Column(
@@ -151,8 +149,9 @@ class _LoginScrenState extends State<LoginScren> {
                           text: 'Login',
                           onpressed: () {
                             Navigator.pushReplacementNamed(
-      context,
-      AppRoutes.bottomNavigationBar);
+                              context,
+                              AppRoutes.bottomNavigationBar,
+                            );
                           },
                           icon: Icons.login,
                         ),

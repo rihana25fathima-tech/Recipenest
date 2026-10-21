@@ -22,7 +22,7 @@ class AppRoutes {
   static String addRecipeScreen = '/addRecipeScreen';
   static String addIngredientScreen = '/addIngredientScreen';
   static String addInstructions = '/addInstructions';
-  static String recipeDetailsScreen ='/recipeDetailsScreen';
+  static String recipeDetailsScreen = '/recipeDetailsScreen';
   static Map<String, WidgetBuilder> routes = {
     splash: (context) => Splashscreen(),
     login: (context) => LoginScren(),
@@ -34,6 +34,6 @@ class AppRoutes {
     addRecipeScreen: (context) => AddRecipeScreen(),
     addIngredientScreen: (context) => AddIngredientScreen(),
     addInstructions: (context) => AddInstructions(),
-    recipeDetailsScreen:(context) => RecipeDetailsScreen(),
+    recipeDetailsScreen: (context) => RecipeDetailsScreen(),
   };
 }
