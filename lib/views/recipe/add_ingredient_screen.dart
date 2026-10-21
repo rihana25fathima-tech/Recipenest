@@ -12,9 +12,8 @@ class AddIngredientScreen extends StatefulWidget {
 }
 
 class _AddIngredientScreenState extends State<AddIngredientScreen> {
-  TextEditingController? get ingredientControlle => null;
-
-  TextEditingController? get quantityController => null;
+  TextEditingController ingredientControlle = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -167,9 +166,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                       height: 42,
                       width: double.infinity,
                       child: OutlinedButton.icon(
-                        onPressed: () {
-                         
-                        },
+                        onPressed: () {},
                         icon: Icon(
                           Icons.add,
                           color: AppColors.primary,
@@ -216,9 +213,9 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
                 ],
               ),
+              SizedBox(height: 20),
               _buildList("1", "Egg", "2"),
               SizedBox(height: 8),
               _buildList("2", "Milk", "3/4"),
@@ -230,38 +227,37 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: SafeArea(child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 10,
-        ),
-        color: AppColors.background,
-        child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: CustomButton(
-                      text: 'Back',
-                      onpressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  SizedBox(width: 12),
-
-                  ///nextbutton
-                  Expanded(
-                    flex: 6,
-                    child: CustomButton(
-                      text: 'Next Instruction',
-                      onpressed: () {
-                        Navigator.pushNamed(context, AppRoutes.addInstructions);
-                      },
-                    ),
-                  ),
-                ],
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          color: AppColors.background,
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: CustomButton(
+                  text: 'Back',
+                  onpressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
               ),
-      )),
+              SizedBox(width: 12),
+
+              ///nextbutton
+              Expanded(
+                flex: 6,
+                child: CustomButton(
+                  text: 'Next Instruction',
+                  onpressed: () {
+                    Navigator.pushNamed(context, AppRoutes.addInstructions);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -269,12 +265,13 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
   Widget _buildList(String number, String name, String quantity) {
     return Container(
       margin: EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFE5EAF2)),
+        border: Border.all(color: AppColors.primary),
       ),
+
       child: Row(
         children: [
           //number
@@ -283,7 +280,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
             height: 28,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: const Color(0xFFFFF2EE),
+              color: Color(0xFFFFF2EE),
               borderRadius: BorderRadius.circular(9),
             ),
             child: Text(

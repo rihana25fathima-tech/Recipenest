@@ -44,24 +44,11 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                             icon: Icon(Icons.arrow_back),
                           ),
                         ),
-                        //                         Positioned(
-                        //  top:12,
-                        //           right: 60,
-                        //           child: _buildCircleButton(
-                        //             icon: isFavorite ? Icons.favorite : Icons.favorite_border,
-                        //             iconColor: Colors.red,
-                        //             onTap: () {
-                        //               setState(() {
-                        //                 isFavorite = !isFavorite;
-                        //               });
-                        //             },
-                        //           ),
-                        //         ),
                       ],
                     ),
                     SizedBox(height: 25),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      padding: EdgeInsets.symmetric(horizontal: 18),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -107,14 +94,6 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                                   color: Colors.black,
                                 ),
                               ),
-                              SizedBox(width: 16),
-                              Text(
-                                '3 items',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                ),
-                              ),
                               Spacer(),
                               Text(
                                 'Check All',
@@ -145,14 +124,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                                   color: Colors.black,
                                 ),
                               ),
-                              SizedBox(width: 16),
-                              Text(
-                                '3 steps',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                ),
-                              ),
+
                               Spacer(),
                               Text(
                                 'Step-by-Step',
@@ -163,6 +135,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                               ),
                             ],
                           ),
+
                           _buildinstraction(
                             "1",
                             "Sear Shrimp",
@@ -190,20 +163,6 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
           ],
         ),
       ),
-      // bottomNavigationBar: SafeArea(
-      //   child: Container(
-      //     padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-
-      //     color: AppColors.background,
-      //     child: CustomButton(
-      //       text: 'Sumbit',
-      //       onpressed: () {
-      //         Navigator.pushNamed(context, AppRoutes.bottomNavigationBar);
-      //       },
-      //       icon: Icons.arrow_forward,
-      //     ),
-      //   ),
-      // ),
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -216,7 +175,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                   height: 48,
                   child: OutlinedButton.icon(
                     onPressed: () {},
-                    icon: const Icon(Icons.delete_outline, size: 18),
+                    icon: Icon(Icons.delete_outline, size: 18),
                     label: Text('Delete'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.red,
@@ -229,9 +188,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                   ),
                 ),
               ),
-
               SizedBox(width: 8),
-
               // Edit Button
               Expanded(
                 child: SizedBox(
@@ -251,9 +208,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                   ),
                 ),
               ),
-
               SizedBox(width: 8),
-
               // Your CustomButton
               Expanded(
                 child: CustomButton(
@@ -294,9 +249,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
               color: Color.fromARGB(255, 16, 16, 16),
             ),
           ),
-
-          const SizedBox(height: 4),
-
+          SizedBox(height: 4),
           Text(
             value,
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
@@ -368,7 +321,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFF1F1F1)),
+        border: Border.all(color: Color(0xFFF1F1F1)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -377,40 +330,36 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
             width: 28,
             height: 28,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Color(0xFFFFF3EF),
               shape: BoxShape.circle,
             ),
             child: Text(
               'number',
-              style: const TextStyle(
+              style: TextStyle(
                 color: Color(0xFFE85D3F),
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
               ),
             ),
           ),
-
-          const SizedBox(width: 12),
-
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 13,
                     color: Colors.black,
                   ),
                 ),
-
-                const SizedBox(height: 6),
-
+                SizedBox(height: 6),
                 Text(
                   description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11,
                     height: 1.6,
                     color: Colors.grey,

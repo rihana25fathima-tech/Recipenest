@@ -93,7 +93,6 @@ class _LoginScrenState extends State<LoginScren> {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 30),
                       // email
                       Text(
@@ -156,7 +155,7 @@ class _LoginScrenState extends State<LoginScren> {
                           icon: Icons.login,
                         ),
                       ),
-                      SizedBox(height: 24),
+                      SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

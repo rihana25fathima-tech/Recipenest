@@ -58,7 +58,6 @@ class _SignScreenState extends State<SignScreen> {
                         ),
                       ),
                       SizedBox(height: 40),
-
                       // Create Account heading
                       Text(
                         'Create Account',
@@ -69,18 +68,16 @@ class _SignScreenState extends State<SignScreen> {
                         ),
                       ),
                       SizedBox(height: 6),
-
                       // Subtitle
                       Text(
                         'Join RecipeNest to store and manage your recipes .',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 14,
                           height: 1.5,
                           color: AppColors.textsec,
                         ),
                       ),
                       SizedBox(height: 22),
-
                       // Full Name
                       Text(
                         'FULL NAME *',
@@ -91,16 +88,13 @@ class _SignScreenState extends State<SignScreen> {
                         ),
                       ),
                       SizedBox(height: 8),
-
                       CustomTextField(
                         hintText: 'Enter your full name',
                         controller: nameController,
                         prefixIcon: Icons.person_outline,
                         keyboardType: TextInputType.name,
                       ),
-
                       SizedBox(height: 16),
-
                       // Email Address
                       Text(
                         'EMAIL ADDRESS *',
@@ -111,16 +105,13 @@ class _SignScreenState extends State<SignScreen> {
                         ),
                       ),
                       SizedBox(height: 8),
-
                       CustomTextField(
                         hintText: 'Enter your email',
                         controller: emailController,
                         prefixIcon: Icons.mail_outline,
                         keyboardType: TextInputType.emailAddress,
                       ),
-
                       SizedBox(height: 16),
-
                       // Password
                       Text(
                         'PASSWORD *',
@@ -130,7 +121,6 @@ class _SignScreenState extends State<SignScreen> {
                           color: AppColors.text1,
                         ),
                       ),
-
                       SizedBox(height: 8),
                       CustomTextField(
                         hintText: 'Create a password',
@@ -184,11 +174,7 @@ class _SignScreenState extends State<SignScreen> {
                           ),
                         ),
                       ),
-                      Spacer(),
-                      /////////////////////////
-                      ///
-                      ///
-                      ///
+                      Spacer(),      
                       SizedBox(
                         width: double.infinity,
                         child: CustomButton(

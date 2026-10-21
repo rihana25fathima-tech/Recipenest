@@ -99,7 +99,7 @@ class _AddInstructionsState extends State<AddInstructions> {
                   ),
                 ],
               ),
-              SizedBox(height: 12),
+              SizedBox(height: 15),
               _buildInstruction("1", "Step 1"),
               SizedBox(height: 8),
               _buildInstruction("2", "Step2"),
@@ -128,7 +128,6 @@ class _AddInstructionsState extends State<AddInstructions> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
             ],
           ),
         ),
@@ -198,7 +197,7 @@ class _AddInstructionsState extends State<AddInstructions> {
   Widget _buildInstruction(String number, String step) {
     return Container(
       margin: EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -252,21 +251,21 @@ class _AddInstructionsState extends State<AddInstructions> {
           TextField(
             controller: instructionController,
             minLines: 2,
-            maxLines: 4,
+            maxLines: 5,
             style: TextStyle(fontSize: 11, color: AppColors.text1, height: 1.5),
             decoration: InputDecoration(
               hintText: 'Describe this cooking step...',
               hintStyle: TextStyle(fontSize: 11, color: AppColors.textsec),
               filled: true,
-              fillColor: const Color(0xFFF8FAFC),
-              contentPadding: const EdgeInsets.all(12),
+              fillColor: Color(0xFFF8FAFC),
+              contentPadding: EdgeInsets.all(12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Color(0xFFE5EAF2)),
+                borderSide: BorderSide(color: Color(0xFFE5EAF2)),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Color(0xFFE5EAF2)),
+                borderSide: BorderSide(color: Color(0xFFE5EAF2)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),

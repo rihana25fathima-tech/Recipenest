@@ -12,7 +12,6 @@ class AddRecipeScreen extends StatefulWidget {
 }
 
 class _AddRecipeScreenState extends State<AddRecipeScreen> {
-  String selectedCatagory = 'Dinner';
   final List<String> catagary = [
     'Breakfast',
     'Lunch',
@@ -21,7 +20,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
     'Dessert',
     'Other',
   ];
-
+  String selectedCatagory = 'Dinner';
   String selectedDifficuilt = 'Medium';
 
   @override
@@ -105,7 +104,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 width: double.infinity,
                 height: 160,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE8E6FF),
+                  color: Color(0xFFE8E6FF),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: ClipRRect(
@@ -177,9 +176,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.textsec.withValues(alpha: 0.3),
-                  ),
+                  border: Border.all(color: AppColors.primary),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
@@ -250,18 +247,6 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   _buildDifficult('Hard'),
                 ],
               ),
-
-              // Next Button
-              // CustomButton(
-              //   text: 'Next: Add Ingredients',
-              //   onpressed: () {
-              //     Navigator.pushNamed(context, AppRoutes.addIngredientScreen);
-              //     ScaffoldMessenger.of(context).showSnackBar(
-              //       SnackBar(content: Text('Ingredients page coming next!')),
-              //     );
-              //   },
-              //   icon: Icons.arrow_forward,
-              // ),
             ],
           ),
         ),
@@ -269,13 +254,11 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-
           color: AppColors.background,
           child: CustomButton(
             text: 'Next: Add Ingredients',
             onpressed: () {
               Navigator.pushNamed(context, AppRoutes.addIngredientScreen);
-            
             },
             icon: Icons.arrow_forward,
           ),
@@ -292,7 +275,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
           Container(
             height: 5,
             decoration: BoxDecoration(
-              color: active ? AppColors.primary : const Color(0xFFE0E6F0),
+              color: active ? AppColors.primary : Color(0xFFE0E6F0),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -303,7 +286,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 9,
-              color: active ? AppColors.primary : const Color(0xFF8A9AB8),
+              color: active ? AppColors.primary : Color(0xFF8A9AB8),
             ),
           ),
         ],
@@ -327,9 +310,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
             color: isSelected ? AppColors.primary : Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isSelected
-                  ? AppColors.primary
-                  : AppColors.textsec.withValues(alpha: 0.3),
+              color: isSelected ? AppColors.text : AppColors.primary,
             ),
           ),
           child: Text(

@@ -63,9 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: AppColors.text1,
                               ),
                             ),
-
-                            const SizedBox(height: 3),
-
+                            SizedBox(height: 3),
                             Text(
                               'Offline Kitchen Assistant',
                               style: TextStyle(
@@ -78,33 +76,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    // Container(
-                    //   height: 48,
-                    //   padding: EdgeInsets.symmetric(horizontal: 13),
-                    // decoration: BoxDecoration(
-                    //   color: AppColors.background,
-                    //   borderRadius: BorderRadius.circular(25),
-                    //   border: Border.all(color: AppColors.border),
-                    // ),
-
                     CustomTextField(
                       prefixIcon: Icons.search,
                       hintText: 'Search recipe or ingredients...',
                       controller: searchController,
                     ),
-                    SizedBox(height: 15,),
-              
+                    SizedBox(height: 20),
+
                     Text(
                       'Categories',
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: AppColors.text1,
                       ),
                     ),
                     SizedBox(height: 14),
                     catagories(),
-                    SizedBox(height: 25),
+                    SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -248,7 +237,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
-
                 //catagary label
                 Positioned(
                   left: 12,
@@ -265,7 +253,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-
                 // Favourite Icon
                 Positioned(
                   top: 10,
@@ -301,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   Row(
                     children: [
@@ -310,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         size: 15,
                         color: AppColors.primary,
                       ),
-                      const SizedBox(width: 5),
+                      SizedBox(width: 5),
 
                       Expanded(
                         child: Text(
@@ -322,12 +309,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 9,
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFF3E0),
+                          color: Color(0xFFFFF3E0),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(

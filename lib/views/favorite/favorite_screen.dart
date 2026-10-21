@@ -10,7 +10,7 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  TextEditingController? get searchController => null;
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -175,12 +175,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 14),
+                SizedBox(height: 14),
 
                 Row(
                   children: [
                     Icon(Icons.access_time, size: 15, color: AppColors.primary),
-                    const SizedBox(width: 5),
+                    SizedBox(width: 5),
 
                     Expanded(
                       child: Text(
@@ -192,12 +192,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 9,
-                        vertical: 5,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 9, vertical: 5),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFF3E0),
+                        color: Color(0xFFFFF3E0),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
