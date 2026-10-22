@@ -268,7 +268,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             child: Icon(icon, size: 19, color: AppColors.primary),
           ),
-          SizedBox(width: 10),
+          SizedBox(width: 8),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

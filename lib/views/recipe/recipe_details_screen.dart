@@ -114,7 +114,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                           SizedBox(height: 20),
 
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
                                 'Cooking Instructions',
@@ -135,7 +135,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                               ),
                             ],
                           ),
-
+SizedBox(height: 8,),
                           _buildinstraction(
                             "1",
                             "Sear Shrimp",
@@ -335,7 +335,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
               shape: BoxShape.circle,
             ),
             child: Text(
-              'number',
+              number,
               style: TextStyle(
                 color: Color(0xFFE85D3F),
                 fontWeight: FontWeight.bold,

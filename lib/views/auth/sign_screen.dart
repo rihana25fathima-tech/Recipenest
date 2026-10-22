@@ -57,7 +57,7 @@ class _SignScreenState extends State<SignScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 40),
+                      SizedBox(height: 30),
                       // Create Account heading
                       Text(
                         'Create Account',
@@ -72,7 +72,7 @@ class _SignScreenState extends State<SignScreen> {
                       Text(
                         'Join RecipeNest to store and manage your recipes .',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 13,
                           height: 1.5,
                           color: AppColors.textsec,
                         ),
@@ -174,7 +174,7 @@ class _SignScreenState extends State<SignScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 150,),     
+                      Spacer(), 
                       SizedBox(
                         width: double.infinity,
                         child: CustomButton(
