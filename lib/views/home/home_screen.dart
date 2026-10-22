@@ -123,11 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           AppRoutes.recipeDetailsScreen,
                         );
                       },
-                      recipeName: 'Chicken Biriyani',
-                      category: 'Lunch',
-                      cookingTime: '45 mins',
+                      recipeName: 'Classic British Fish and Chips',
+                      category: 'Dinner',
+                      cookingTime: '50 mins',
                       difficulty: 'Medium',
-                      imageUrl: 'https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani-recipe.jpg',
+                      imageUrl: 'https://i.pinimg.com/1200x/39/e8/9a/39e89ae11f7ef02eecfe9a205aab4e47.jpg',
                       onFavouriteTap: () {
                         setState(() {});
                       },
@@ -282,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     recipeName,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: FontWeight.bold,
                       color: AppColors.text1,
                     ),
@@ -303,8 +303,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           cookingTime,
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 13,
                             color: AppColors.textsec,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),

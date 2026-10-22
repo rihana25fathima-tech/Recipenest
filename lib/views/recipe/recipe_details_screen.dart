@@ -30,7 +30,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                           width: double.infinity,
                           height: 220,
                           child: Image.network(
-                            'https://images.unsplash.com/photo-1559737558-2f5a35f4523b',
+                            'https://i.pinimg.com/1200x/39/e8/9a/39e89ae11f7ef02eecfe9a205aab4e47.jpg',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -53,7 +53,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Creamy Garlic Butter Tuscan Shrimp',
+                            'Classic British Fish and Chips',
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
@@ -68,7 +68,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                                 child: _buildtimeanddifficult(
                                   icon: Icons.access_time,
                                   title: "Cook Time",
-                                  value: "25 mins",
+                                  value: "50 mins",
                                 ),
                               ),
                               SizedBox(width: 12),
@@ -106,11 +106,21 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                           ),
                           SizedBox(height: 8),
                           //ing list
-                          _buildingredient("Large Raw Shrimp ", "150 kg"),
+                          _buildingredient(
+                            "white fish fillets (cod or haddock)",
+                            "2",
+                          ),
                           SizedBox(height: 5),
-                          _buildingredient("Minced Garlic Cloves", "2"),
+                          _buildingredient("all-purpose flour", "1"),
                           SizedBox(height: 5),
-                          _buildingredient("Heavy Whipping Creamm", "3/4 cup"),
+                          _buildingredient(
+                            "cold sparkling water or cold water",
+                            "1/2 cup",
+                          ),
+                          SizedBox(height: 5),
+                          _buildingredient("baking powder", "1/2"),
+                          SizedBox(height: 5),
+                          _buildingredient("Salt to taste", "1/5 teespoon"),
                           SizedBox(height: 20),
 
                           Row(
@@ -135,16 +145,19 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                               ),
                             ],
                           ),
-SizedBox(height: 8,),
+                          SizedBox(height: 8),
                           _buildinstraction(
                             "1",
-                            "Sear Shrimp",
-                            "Sear shrimp in melted butter with minced garlic  2 minutes on each side until pink and fragrant.Set aside on a plate.",
+                            "Prepare the Potatoes",
+                            "Peel the potatoes and cut them into thick strips."
+                                "Rinse the potato strips in cold water and pat them dry."
+                                "Heat oil in a deep pan and fry the potatoes until they are soft but not golden."
+                                "Remove the potatoes and set them aside.",
                           ),
 
                           _buildinstraction(
                             "2",
-                            "Simmer Cream Sauce",
+                            "Prepare the Fish Batter",
                             "Pour in heavy crea add sun-dried tomatoesand simmer gently over medium heat until thesauce thickens slightly.",
                           ),
                           _buildinstraction(
@@ -319,9 +332,9 @@ SizedBox(height: 8,),
       margin: EdgeInsets.only(bottom: 12),
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color.fromARGB(255, 237, 209, 209),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Color(0xFFF1F1F1)),
+        border: Border.all(color: AppColors.primary),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -360,9 +373,10 @@ SizedBox(height: 8,),
                 Text(
                   description,
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 13,
                     height: 1.6,
                     color: Colors.grey,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],

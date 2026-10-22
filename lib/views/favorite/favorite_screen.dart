@@ -74,11 +74,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ),
               SizedBox(height: 25),
               recipeCard(
-                recipeName: 'Chicken Biriyani',
-                category: 'Lunch',
-                cookingTime: '45 mins',
+                recipeName: 'Classic British Fish and Chips',
+                category: 'Dinner',
+                cookingTime: '50 mins',
                 difficulty: 'Medium',
-                imageUrl: 'https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani-recipe.jpg',
+                imageUrl: 'https://i.pinimg.com/1200x/39/e8/9a/39e89ae11f7ef02eecfe9a205aab4e47.jpg',
                 onFavouriteTap: () {
                   setState(() {});
                 },
