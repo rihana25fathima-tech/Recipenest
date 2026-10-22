@@ -18,7 +18,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 11),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,7 +30,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: Container(
-                      width: 38,
+                      width: 39,
                       height: 38,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -57,7 +57,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         Text(
                           'All the recipes you love, nestled in one place.',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             color: AppColors.textsec,
                           ),
                         ),

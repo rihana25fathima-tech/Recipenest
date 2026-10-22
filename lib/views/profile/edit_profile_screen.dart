@@ -142,7 +142,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         'Changes will instantly update your RecipeNest profile',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 10,
                           color: AppColors.textsec,
                           fontWeight: FontWeight.bold,
                         ),

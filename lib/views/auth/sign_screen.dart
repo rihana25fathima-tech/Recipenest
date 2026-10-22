@@ -174,7 +174,7 @@ class _SignScreenState extends State<SignScreen> {
                           ),
                         ),
                       ),
-                      Spacer(),      
+                      SizedBox(height: 150,),     
                       SizedBox(
                         width: double.infinity,
                         child: CustomButton(
@@ -207,7 +207,7 @@ class _SignScreenState extends State<SignScreen> {
                                 AppRoutes.login,
                               );
                             },
-                            child: const Text(
+                            child:  Text(
                               'Sign In',
                               style: TextStyle(
                                 color: Color(0xFFFF543D),

@@ -28,229 +28,244 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //back button
-              Row(
+        child: Column(
+          children: [
+            //fixed
+            //back button
+            Padding(
+              padding: EdgeInsetsGeometry.fromLTRB(18, 12, 18, 0),
+              child: Column(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    borderRadius: BorderRadius.circular(30),
-                    child: Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFF3DFD7),
-                        border: Border.all(color: Color(0xFFF3DFD7)),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        borderRadius: BorderRadius.circular(30),
+                        child: Container(
+                          width: 38,
+                          height: 38,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xFFF3DFD7),
+                            border: Border.all(color: Color(0xFFF3DFD7)),
+                          ),
+                          child: Icon(Icons.arrow_back, size: 19),
+                        ),
                       ),
-                      child: Icon(Icons.arrow_back, size: 19),
-                    ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Add New Recipe',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.text1,
+                              ),
+                            ),
+                            SizedBox(height: 3),
+                            Text(
+                              'Step 1 of 3 · Basic Details',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: AppColors.textsec,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(height: 22),
+                  //step indicator
+                  Row(
+                    children: [
+                      _buildStep('1 details', true),
+                      SizedBox(width: 8),
+                      _buildStep('2. Ingredients', false),
+                      SizedBox(width: 8),
+                      _buildStep('3. Steps', false),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 26),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //recipe cober image
+                    Text(
+                      'RECIPE COVER IMAGE *',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.text1,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      width: double.infinity,
+                      height: 160,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFE8E6FF),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          'https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani-recipe.jpg',
+                          width: double.infinity,
+                          height: 160,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Choose a beautiful photo of your dish.',
+                      style: TextStyle(fontSize: 14, color: AppColors.textsec),
+                    ),
+                    SizedBox(height: 24),
+                    // Recipe Information Heading
+                    Row(
                       children: [
+                        Icon(
+                          Icons.restaurant_menu,
+                          color: AppColors.primary,
+                          size: 20,
+                        ),
+                        SizedBox(width: 8),
                         Text(
-                          'Add New Recipe',
+                          'RECIPE INFORMATION',
                           style: TextStyle(
-                            fontSize: 17,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: AppColors.text1,
                           ),
                         ),
-                        SizedBox(height: 3),
-                        Text(
-                          'Step 1 of 3 · Basic Details',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: AppColors.textsec,
-                          ),
-                        ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 22),
-              //step indicator
-              Row(
-                children: [
-                  _buildStep('1 details', true),
-                  SizedBox(width: 8),
-                  _buildStep('2. Ingredients', false),
-                  SizedBox(width: 8),
-                  _buildStep('3. Steps', false),
-                ],
-              ),
-              SizedBox(height: 26),
-              //recipe cober image
-              Text(
-                'RECIPE COVER IMAGE *',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text1,
-                ),
-              ),
-              SizedBox(height: 10),
-              Container(
-                width: double.infinity,
-                height: 160,
-                decoration: BoxDecoration(
-                  color: Color(0xFFE8E6FF),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.network(
-                    'https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani-recipe.jpg',
-                    width: double.infinity,
-                    height: 160,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Choose a beautiful photo of your dish.',
-                style: TextStyle(fontSize: 14, color: AppColors.textsec),
-              ),
-              SizedBox(height: 24),
-              // Recipe Information Heading
-              Row(
-                children: [
-                  Icon(
-                    Icons.restaurant_menu,
-                    color: AppColors.primary,
-                    size: 20,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    'RECIPE INFORMATION',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.text1,
+                    SizedBox(height: 20),
+                    // Recipe Name Label
+                    Text(
+                      'RECIPE NAME *',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.text1,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              // Recipe Name Label
-              Text(
-                'RECIPE NAME *',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text1,
-                ),
-              ),
-              SizedBox(height: 8),
+                    SizedBox(height: 8),
 
-              CustomTextField(
-                hintText: 'Enter recipe name',
-                prefixIcon: Icons.restaurant_menu,
-              ),
-              SizedBox(height: 20),
-              //cartagory
-              Text(
-                'CATEGORY *',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text1,
-                ),
-              ),
-              SizedBox(height: 8),
-              //catagy dropdown
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 14),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.primary),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: selectedCatagory,
-                    isExpanded: true,
-                    hint: Text("Selected Category"),
-                    icon: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: AppColors.textsec,
+                    CustomTextField(
+                      hintText: 'Enter recipe name',
+                      prefixIcon: Icons.restaurant_menu,
                     ),
-                    items: catagary.map((categary) {
-                      return DropdownMenuItem<String>(
-                        value: categary,
-                        child: Text(
-                          categary,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: AppColors.text1,
+                    SizedBox(height: 20),
+                    //cartagory
+                    Text(
+                      'CATEGORY *',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.text1,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    //catagy dropdown
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(horizontal: 14),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.primary),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedCatagory,
+                          isExpanded: true,
+                          hint: Text("Selected Category"),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down,
+                            color: AppColors.textsec,
                           ),
+                          items: catagary.map((categary) {
+                            return DropdownMenuItem<String>(
+                              value: categary,
+                              child: Text(
+                                categary,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.text1,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() {
+                                selectedCatagory = value;
+                              });
+                            }
+                          },
                         ),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() {
-                          selectedCatagory = value;
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              //coking time
-              Text(
-                'COOKING TIME *',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text1,
-                ),
-              ),
-              SizedBox(height: 8),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    //coking time
+                    Text(
+                      'COOKING TIME *',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.text1,
+                      ),
+                    ),
+                    SizedBox(height: 8),
 
-              CustomTextField(
-                hintText: 'Enter cooking time in minutes',
-                prefixIcon: Icons.access_time,
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 20),
-              // Difficulty Level Label
-              Text(
-                'DIFFICULTY LEVEL *',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text1,
+                    CustomTextField(
+                      hintText: 'Enter cooking time in minutes',
+                      prefixIcon: Icons.access_time,
+                      keyboardType: TextInputType.number,
+                    ),
+                    SizedBox(height: 20),
+                    // Difficulty Level Label
+                    Text(
+                      'DIFFICULTY LEVEL *',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.text1,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    // Difficulty Level Options
+                    Row(
+                      children: [
+                        _buildDifficult('Easy'),
+                        SizedBox(width: 10),
+                        _buildDifficult('Medium'),
+                        SizedBox(width: 10),
+                        _buildDifficult('Hard'),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 10),
-              // Difficulty Level Options
-              Row(
-                children: [
-                  _buildDifficult('Easy'),
-                  SizedBox(width: 10),
-                  _buildDifficult('Medium'),
-                  SizedBox(width: 10),
-                  _buildDifficult('Hard'),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),

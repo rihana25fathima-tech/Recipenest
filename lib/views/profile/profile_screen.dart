@@ -251,18 +251,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required VoidCallback onTap,
   }) {
     return Container(
-      constraints: BoxConstraints(minHeight: 10),
-      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+      // constraints: BoxConstraints(minHeight: 10),
+      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 11),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColors.primary),
       ),
-
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(9),
+            padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 241, 216, 211),
               borderRadius: BorderRadius.circular(10),
@@ -273,7 +272,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 8),
               // Fixed Count
               Text(
                 count,

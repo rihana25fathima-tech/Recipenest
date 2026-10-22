@@ -18,12 +18,13 @@ class _AddInstructionsState extends State<AddInstructions> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //back button
+                Padding(
+              padding: EdgeInsetsGeometry.fromLTRB(18, 12, 18, 0),
+              child: Column(
+                children: [
               Row(
                 children: [
                   InkWell(
@@ -78,7 +79,16 @@ class _AddInstructionsState extends State<AddInstructions> {
                   _buildStep('3. Steps', true),
                 ],
               ),
-              SizedBox(height: 22),
+                ]
+              )
+                ),
+              SizedBox(height: 26),
+              Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
               Row(
                 children: [
                   Icon(
@@ -131,6 +141,9 @@ class _AddInstructionsState extends State<AddInstructions> {
             ],
           ),
         ),
+              ),
+            ]
+          )
       ),
       bottomNavigationBar: SafeArea(
         child: Container(

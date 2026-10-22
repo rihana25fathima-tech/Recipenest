@@ -20,12 +20,14 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // fixed
               //back button
+            Padding(
+              padding: EdgeInsetsGeometry.fromLTRB(18, 12, 18, 0),
+              child: Column(
+                children: [  
               Row(
                 children: [
                   InkWell(
@@ -44,7 +46,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                       child: Icon(Icons.arrow_back, size: 19),
                     ),
                   ),
-                  SizedBox(width: 18),
+                  SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,8 +82,17 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                   _buildStep('3. Steps', false),
                 ],
               ),
-              SizedBox(height: 22),
+            ]
+              )
+            ),
+              SizedBox(height: 26),
 
+ Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
               // Add New Ingredient Card
               Container(
                 padding: EdgeInsets.all(16),
@@ -226,6 +237,9 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
             ],
           ),
         ),
+      ),
+            ]
+          )
       ),
       bottomNavigationBar: SafeArea(
         child: Container(

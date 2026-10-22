@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'Lunch',
     'Evening Snack',
     'Dinner',
-    'sweet',
+    'Sweet',
   ];
   @override
   Widget build(BuildContext context) {
