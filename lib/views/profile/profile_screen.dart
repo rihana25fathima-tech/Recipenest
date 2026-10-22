@@ -14,9 +14,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-
       body: SafeArea(
-        // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
           children: [
             // Heading
@@ -41,7 +39,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               SizedBox(height: 8),
-
                               Text(
                                 'Your personal cooking space',
                                 style: TextStyle(
@@ -69,9 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 20),
                     // Profile Card
                     _buildProfileCard(),
-
                     SizedBox(height: 18),
-
                     Row(
                       children: [
                         Expanded(
@@ -96,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 24),
                     Row(
                       children: [
-                        const Text(
+                        Text(
                           'My Cooking Space',
                           style: TextStyle(
                             fontSize: 17,
@@ -104,17 +99,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Color(0xFF252538),
                           ),
                         ),
-                        const SizedBox(width: 7),
+                        SizedBox(width: 7),
                         Container(
                           height: 7,
                           width: 7,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             color: Color(0xFFE43D20),
                             shape: BoxShape.circle,
                           ),
                         ),
-                        const Spacer(),
-                        const Text(
+                        Spacer(),
+                        Text(
                           'PREFERENCES',
                           style: TextStyle(
                             fontSize: 10,
@@ -125,10 +120,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-
                     SizedBox(height: 12),
-
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     _buildMenuItem(
                       icon: Icons.favorite,
                       title: 'My Favourite Recipes',
@@ -146,11 +139,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     //my recipe
-                    _buildMenuItem(icon:Icons.restaurant_rounded , 
-                    title: "My Recipes",
-                     onTap: () {
-                       Navigator.pushNamed(context, AppRoutes.bottomNavigationBar);
-                     },),
+                    _buildMenuItem(
+                      icon: Icons.restaurant_rounded,
+                      title: "My Recipes",
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.bottomNavigationBar,
+                        );
+                      },
+                    ),
                     // Logout
                     _buildMenuItem(
                       icon: Icons.logout,
@@ -194,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 child: Icon(
                   Icons.person_rounded,
-                  color: const Color.fromARGB(255, 243, 238, 238),
+                  color: Color.fromARGB(255, 243, 238, 238),
                   size: 25,
                 ),
               ),
@@ -219,7 +217,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                     SizedBox(height: 5),
-
                     Text(
                       'user email',
                       style: TextStyle(fontSize: 11, color: AppColors.text1),
@@ -268,7 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             child: Icon(icon, size: 19, color: AppColors.primary),
           ),
-          SizedBox(width: 8),
+          SizedBox(width: 5),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -318,7 +315,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Icon(icon, size: 18, color: AppColors.primary),
             ),
-
             SizedBox(width: 12),
             // Title
             Expanded(
@@ -327,7 +323,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
               ),
             ),
-
             // Trailing Text
             if (trailing != null)
               Text(
@@ -362,13 +357,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             'and manage your favourite recipes '
             'in one place.',
           ),
-
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(dialogContext);
               },
-
               child: Text('OK', style: TextStyle(color: AppColors.primary)),
             ),
           ],
@@ -385,7 +378,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),
           ),
-
           title: Text('Logout', style: TextStyle(fontWeight: FontWeight.bold)),
           content: Text('Are you sure you want to logout?'),
           actions: [
@@ -394,22 +386,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () {
                 Navigator.pop(dialogContext);
               },
-
               child: Text('Cancel', style: TextStyle(color: AppColors.textsec)),
             ),
-
             // Logout
             TextButton(
               onPressed: () {
                 Navigator.pop(dialogContext);
-
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRoutes.login,
                   (route) => false,
                 );
               },
-
               child: Text('Logout', style: TextStyle(color: Colors.red)),
             ),
           ],
