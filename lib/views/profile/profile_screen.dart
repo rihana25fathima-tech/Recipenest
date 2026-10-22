@@ -19,50 +19,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
           children: [
-            //header
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 246, 229, 229),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.soup_kitchen_rounded,
-                    color: Color(0xFFE43D20),
-                    size: 23,
-                  ),
-
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: Text(
-                      'Account',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.text1,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 36,
-                    width: 36,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFBD260D),
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.person_outline_rounded,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
             // Heading
             Expanded(
               child: SingleChildScrollView(
@@ -272,7 +228,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.editProfileScreen);
+                },
                 icon: Icon(
                   Icons.chevron_right,
                   color: Color.fromARGB(255, 36, 34, 34),
