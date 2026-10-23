@@ -146,8 +146,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.pushNamed(context, AppRoutes.addRecipeScreen);
         },
         backgroundColor: AppColors.primary,
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text(
+        icon:  Icon(Icons.add, color: Colors.white),
+        label:  Text(
           'Add Recipe',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),

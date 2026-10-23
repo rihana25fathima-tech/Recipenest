@@ -20,226 +20,231 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-          child: Column(
-            children: [
-              // fixed
-              //back button
+        child: Column(
+          children: [
+            // fixed
+            //back button
             Padding(
               padding: EdgeInsetsGeometry.fromLTRB(18, 12, 18, 0),
               child: Column(
-                children: [  
-              Row(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    borderRadius: BorderRadius.circular(30),
-                    child: Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFF3DFD7),
-                        border: Border.all(color: Color(0xFFF3DFD7)),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        borderRadius: BorderRadius.circular(30),
+                        child: Container(
+                          width: 38,
+                          height: 38,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xFFF3DFD7),
+                            border: Border.all(color: Color(0xFFF3DFD7)),
+                          ),
+                          child: Icon(Icons.arrow_back, size: 19),
+                        ),
                       ),
-                      child: Icon(Icons.arrow_back, size: 19),
-                    ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Add New Recipe',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.text1,
+                              ),
+                            ),
+                            SizedBox(height: 3),
+                            Text(
+                              'Step 2 of 3 ·Ingredients',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: AppColors.textsec,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Add New Recipe',
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.text1,
-                          ),
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          'Step 2 of 3 ·Ingredients',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: AppColors.textsec,
-                          ),
-                        ),
-                      ],
-                    ),
+                  SizedBox(height: 22),
+                  Row(
+                    children: [
+                      _buildStep('1 details', false),
+                      SizedBox(width: 8),
+                      _buildStep('2. Ingredients', true),
+                      SizedBox(width: 8),
+                      _buildStep('3. Steps', false),
+                    ],
                   ),
                 ],
               ),
-              SizedBox(height: 22),
-              Row(
-                children: [
-                  _buildStep('1 details', false),
-                  SizedBox(width: 8),
-                  _buildStep('2. Ingredients', true),
-                  SizedBox(width: 8),
-                  _buildStep('3. Steps', false),
-                ],
-              ),
-            ]
-              )
             ),
-              SizedBox(height: 26),
+            SizedBox(height: 26),
 
- Expanded(
+            Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-              // Add New Ingredient Card
-              Container(
-                padding: EdgeInsets.all(16),
+                    // Add New Ingredient Card
+                    Container(
+                      padding: EdgeInsets.all(16),
 
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: const Color(0xFFE4EAF2)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.03),
-                      blurRadius: 8,
-                      offset: const Offset(0, 3),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: const Color(0xFFE4EAF2)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.03),
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Card Heading
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.add_circle_outline,
+                                color: Color(0xFFFF5038),
+                                size: 17,
+                              ),
+
+                              SizedBox(width: 7),
+
+                              Expanded(
+                                child: Text(
+                                  'ADD NEW INGREDIENT',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF172033),
+                                  ),
+                                ),
+                              ),
+
+                              Text(
+                                'Item & Measure',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: AppColors.textsec,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            'INGREDIENT',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.text1,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          CustomTextField(
+                            controller: ingredientControlle,
+                            hintText: 'e.g. Large Raw Shrimp',
+                          ),
+                          SizedBox(height: 14),
+                          Text(
+                            'QUANTITY / MEASURE',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.text1,
+                            ),
+                          ),
+
+                          SizedBox(height: 8),
+                          CustomTextField(
+                            hintText: 'e.g. 400g or 2 cups',
+                            controller: quantityController,
+                          ),
+                          SizedBox(height: 14),
+                          SizedBox(
+                            height: 42,
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.add,
+                                color: AppColors.primary,
+                                size: 18,
+                              ),
+
+                              label: Text(
+                                'Add to List',
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Color.fromARGB(
+                                  255,
+                                  255,
+                                  236,
+                                  231,
+                                ),
+                                side: BorderSide(color: Color(0xFFFFD1C7)),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Card Heading
+                    SizedBox(height: 22),
+                    // Added Ingred Heading
                     Row(
                       children: [
                         Icon(
-                          Icons.add_circle_outline,
-                          color: Color(0xFFFF5038),
-                          size: 17,
+                          Icons.shopping_bag_outlined,
+                          size: 16,
+                          color: AppColors.primary,
                         ),
-
                         SizedBox(width: 7),
-
                         Expanded(
                           child: Text(
-                            'ADD NEW INGREDIENT',
+                            'ADDED INGREDIENTS',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF172033),
+                              color: AppColors.text1,
                             ),
-                          ),
-                        ),
-
-                        Text(
-                          'Item & Measure',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: AppColors.textsec,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
-                    Text(
-                      'INGREDIENT',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.text1,
-                      ),
-                    ),
+                    SizedBox(height: 20),
+                    _buildList("1", "Egg", "2"),
                     SizedBox(height: 8),
-                    CustomTextField(
-                      controller: ingredientControlle,
-                      hintText: 'e.g. Large Raw Shrimp',
-                    ),
-                    SizedBox(height: 14),
-                    Text(
-                      'QUANTITY / MEASURE',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.text1,
-                      ),
-                    ),
-
+                    _buildList("2", "Milk", "3/4"),
                     SizedBox(height: 8),
-                    CustomTextField(
-                      hintText: 'e.g. 400g or 2 cups',
-                      controller: quantityController,
-                    ),
-                    SizedBox(height: 14),
-                    SizedBox(
-                      height: 42,
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.add,
-                          color: AppColors.primary,
-                          size: 18,
-                        ),
-
-                        label: Text(
-                          'Add to List',
-                          style: TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 255, 236, 231),
-                          side: BorderSide(color: Color(0xFFFFD1C7)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildList("3", "Pototao", "4"),
+                    SizedBox(height: 8),
+                    _buildList("3", "Pototao", "4"),
                   ],
                 ),
               ),
-              SizedBox(height: 22),
-              // Added Ingred Heading
-              Row(
-                children: [
-                  Icon(
-                    Icons.shopping_bag_outlined,
-                    size: 16,
-                    color: AppColors.primary,
-                  ),
-                  SizedBox(width: 7),
-                  Expanded(
-                    child: Text(
-                      'ADDED INGREDIENTS',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.text1,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              _buildList("1", "Egg", "2"),
-              SizedBox(height: 8),
-              _buildList("2", "Milk", "3/4"),
-              SizedBox(height: 8),
-              _buildList("3", "Pototao", "4"),
-              SizedBox(height: 8),
-              _buildList("3", "Pototao", "4"),
-            ],
-          ),
+            ),
+          ],
         ),
-      ),
-            ]
-          )
       ),
       bottomNavigationBar: SafeArea(
         child: Container(

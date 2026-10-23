@@ -86,11 +86,10 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   SizedBox(height: 22),
                   //step indicator
                   Row(
+                    spacing: 8,
                     children: [
                       _buildStep('1 details', true),
-                      SizedBox(width: 8),
                       _buildStep('2. Ingredients', false),
-                      SizedBox(width: 8),
                       _buildStep('3. Steps', false),
                     ],
                   ),

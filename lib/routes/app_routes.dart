@@ -6,11 +6,11 @@ import 'package:recipe_next/views/favorite/favorite_screen.dart';
 import 'package:recipe_next/views/home/home_screen.dart';
 import 'package:recipe_next/views/profile/edit_profile_screen.dart';
 import 'package:recipe_next/views/profile/profile_screen.dart';
-import 'package:recipe_next/views/recipe/add_Cooking_Instructions.dart';
+import 'package:recipe_next/views/recipe/add_cooking_instructions.dart';
 import 'package:recipe_next/views/recipe/add_ingredient_screen.dart';
 import 'package:recipe_next/views/recipe/add_recipe_screen.dart';
 import 'package:recipe_next/views/recipe/recipe_details_screen.dart';
-import 'package:recipe_next/views/splash/splashscreen.dart';
+import 'package:recipe_next/views/splash/splash_screen.dart';
 
 class AppRoutes {
   static String splash = '/';

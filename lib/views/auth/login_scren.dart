@@ -140,7 +140,20 @@ class _LoginScrenState extends State<LoginScren> {
                           ),
                         ),
                       ),
-
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                              color: AppColors.primary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                       Spacer(),
                       SizedBox(
                         width: double.infinity,

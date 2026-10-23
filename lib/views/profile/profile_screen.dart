@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 12),
+      
                     SizedBox(height: 8),
                     _buildMenuItem(
                       icon: Icons.favorite,
@@ -153,7 +153,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _buildMenuItem(
                       icon: Icons.logout,
                       title: 'Logout',
-                      // isLogout: true,
                       onTap: () {
                         _showLogoutDialog(context);
                       },
@@ -248,7 +247,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required VoidCallback onTap,
   }) {
     return Container(
-      // constraints: BoxConstraints(minHeight: 10),
       padding: EdgeInsets.symmetric(vertical: 18, horizontal: 11),
       decoration: BoxDecoration(
         color: Colors.white,
