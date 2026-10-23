@@ -13,7 +13,11 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
-  List<Widget> pages = [HomeScreen(), FavoriteScreen(), ProfileScreen()];
+  List<Widget> pages = [
+    HomeScreen(), 
+    FavoriteScreen(), 
+    ProfileScreen()
+    ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

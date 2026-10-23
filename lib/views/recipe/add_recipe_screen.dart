@@ -23,6 +23,9 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   String selectedCatagory = 'Dinner';
   String selectedDifficuilt = 'Medium';
 
+  TextEditingController reciepenamecontroller =TextEditingController();
+  TextEditingController timecontroller =TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +124,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: Image.network(
-                          'https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani-recipe.jpg',
+                          'https://i.pinimg.com/1200x/39/e8/9a/39e89ae11f7ef02eecfe9a205aab4e47.jpg',
                           width: double.infinity,
                           height: 160,
                           fit: BoxFit.cover,
@@ -166,6 +169,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     SizedBox(height: 8),
 
                     CustomTextField(
+                      controller: reciepenamecontroller,
                       hintText: 'Enter recipe name',
                       prefixIcon: Icons.restaurant_menu,
                     ),
@@ -233,6 +237,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     SizedBox(height: 8),
 
                     CustomTextField(
+                      controller: timecontroller,
                       hintText: 'Enter cooking time in minutes',
                       prefixIcon: Icons.access_time,
                       keyboardType: TextInputType.number,
