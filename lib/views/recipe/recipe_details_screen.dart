@@ -188,11 +188,12 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                   height: 48,
                   child: OutlinedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.delete_outline, size: 18),
+                    icon: Icon(Icons.delete, size: 18),
                     label: Text('Delete'),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      side: BorderSide(color: Colors.red),
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.text,
+                      side: BorderSide(color: AppColors.primary),
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -208,10 +209,11 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                   height: 48,
                   child: OutlinedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.edit_outlined, size: 18),
+                    icon: Icon(Icons.edit, size: 18),
                     label: Text('Edit'),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primary,
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.text,
                       side: BorderSide(color: AppColors.primary),
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
@@ -224,12 +226,22 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
               SizedBox(width: 8),
               // Your CustomButton
               Expanded(
-                child: CustomButton(
-                  text: 'Submit',
-                  onpressed: () {
-                    Navigator.pushNamed(context, AppRoutes.bottomNavigationBar);
-                  },
-                  icon: Icons.arrow_forward,
+                child: SizedBox(
+                  height: 48,
+                  child: OutlinedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(Icons.check, size: 20),
+                    label: Text('Ok'),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.text,
+                      side: BorderSide(color: AppColors.primary),
+                      padding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

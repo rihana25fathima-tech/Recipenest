@@ -24,6 +24,73 @@ class _LoginScrenState extends State<LoginScren> {
     super.dispose();
   }
 
+  //forgett
+  void forget() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.lock_reset, color: AppColors.primary),
+              SizedBox(width: 8),
+              Text('Forgot Password?'),
+            ],
+          ),
+          content: Column(
+            children: [
+              Text(
+                'Email Address',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: AppColors.text1,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 8),
+              //email field
+              CustomTextField(
+                hintText: "Update your Email",
+                controller: emailcontroler,
+                prefixIcon: Icons.email_outlined,
+                keyboardType: TextInputType.emailAddress,
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Password',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: AppColors.text1,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 8),
+              CustomTextField(
+                hintText: 'Update your password',
+                controller: passwordcontroler,
+                prefixIcon: Icons.lock_outline,
+                obscureText: !isPasswordVisible,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isPasswordVisible = !isPasswordVisible;
+                    });
+                  },
+                  icon: Icon(
+                    isPasswordVisible
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    color: AppColors.textsec,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,7 +210,9 @@ class _LoginScrenState extends State<LoginScren> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            forget();
+                          },
                           child: Text(
                             "Forgot Password?",
                             style: TextStyle(
