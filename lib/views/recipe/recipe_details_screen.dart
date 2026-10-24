@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
-import 'package:recipe_next/widget/custom_button.dart';
 
 class RecipeDetailsScreen extends StatefulWidget {
   const new({super.key});

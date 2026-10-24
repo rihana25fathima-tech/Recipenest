@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_next/routes/app_routes.dart';
+import 'package:recipe_next/service/auth_service.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
@@ -17,9 +18,51 @@ class _SignScreenState extends State<SignScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
+  final authService = AuthService();
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
+  //save
+  void registeruser() async {
+    String name = nameController.text.trim();
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    String conformpassword = confirmPasswordController.text.trim();
+    //empty field validation
+    if (name.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        conformpassword.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Please fill all fields")));
+      return;
+    }
+    //emailvalidation
+    if (!email.contains("@")) {
+      email = "$email@gmail.com";
+    }
+    //passwordvelidation
+    if (password != conformpassword) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Password do not match")));
+      return;
+    }
+    //register user
+    bool success = await authService.register(name, email, password);
+   if(!mounted) return;
+    if (!success) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("This email is already existing")));
+      return;
+    }
+    //registration successfully
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Your account created successfully")),
+    );
+    Navigator.pushReplacementNamed(context, AppRoutes.login);
+  }
 
+  //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,13 +217,13 @@ class _SignScreenState extends State<SignScreen> {
                           ),
                         ),
                       ),
-                      Spacer(), 
+                      SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
                         child: CustomButton(
                           text: 'Register Account',
                           onpressed: () {
-                            Navigator.pop(context);
+                            registeruser();
                           },
                         ),
                       ),
@@ -207,7 +250,7 @@ class _SignScreenState extends State<SignScreen> {
                                 AppRoutes.login,
                               );
                             },
-                            child:  Text(
+                            child: Text(
                               'Sign In',
                               style: TextStyle(
                                 color: Color(0xFFFF543D),
