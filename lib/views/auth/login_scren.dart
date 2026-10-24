@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_next/routes/app_routes.dart';
+import 'package:recipe_next/service/auth_service.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
@@ -14,8 +15,31 @@ class LoginScren extends StatefulWidget {
 class _LoginScrenState extends State<LoginScren> {
   TextEditingController emailcontroler = TextEditingController();
   TextEditingController passwordcontroler = TextEditingController();
-
+  final authService = AuthService();
   bool isPasswordVisible = false;
+  void login() async {
+    String email = emailcontroler.text.trim();
+    String password = passwordcontroler.text.trim();
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please enter your email and password")),
+      );
+      return;
+    }
+    if (!email.endsWith("@gmail.com")) {
+      email = "$email@gmail.com";
+    }
+
+    bool success = await authService.login(email, password);
+    if (!mounted) return;
+    if (success) {
+      Navigator.pushReplacementNamed(context, AppRoutes.bottomNavigationBar);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Invalid username or password")));
+    }
+  }
 
   @override
   void dispose() {
@@ -229,10 +253,7 @@ class _LoginScrenState extends State<LoginScren> {
                         child: CustomButton(
                           text: 'Login',
                           onpressed: () {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              AppRoutes.bottomNavigationBar,
-                            );
+                            login();
                           },
                           icon: Icons.login,
                         ),

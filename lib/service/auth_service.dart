@@ -1,5 +1,5 @@
 
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:recipe_next/model/user_model.dart';
 
 class AuthService {
