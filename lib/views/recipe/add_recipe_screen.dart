@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
@@ -23,17 +25,29 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   String selectedCatagory = 'Dinner';
   String selectedDifficuilt = 'Medium';
 
-  TextEditingController reciepenamecontroller =TextEditingController();
-  TextEditingController timecontroller =TextEditingController();
-
-  @override
+  TextEditingController reciepenamecontroller = TextEditingController();
+  TextEditingController timecontroller = TextEditingController();
+  final imagePicker = ImagePicker();
+  File? selectedImage;
+  //image picker function
+  Future<void> pickRecipeImage() async {
+    XFile? image = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+    );
+    if (image != null) {
+      setState(() {
+        selectedImage = File(image.path);
+      });
+    }
+  }
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
-            //fixed
             //back button
             Padding(
               padding: EdgeInsetsGeometry.fromLTRB(18, 12, 18, 0),
@@ -113,27 +127,61 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Container(
-                      width: double.infinity,
-                      height: 160,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE8E6FF),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.network(
-                          'https://i.pinimg.com/1200x/39/e8/9a/39e89ae11f7ef02eecfe9a205aab4e47.jpg',
-                          width: double.infinity,
-                          height: 160,
-                          fit: BoxFit.cover,
+                    GestureDetector(
+                      onTap: pickRecipeImage,
+                      child: Container(
+                        width: double.infinity,
+                        height: 160,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFE8E6FF),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppColors.primary),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: selectedImage != null
+                              ? Image.file(
+                                  selectedImage!,
+                                  width: double.infinity,
+                                  height: 160,
+                                  fit: BoxFit.cover,
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add_photo_alternate_outlined,
+                                      size: 42,
+                                      color: AppColors.primary,
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      "Add Cover image",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.text1,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      'Tap to choose from gallery',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.textsec,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                         ),
                       ),
                     ),
                     SizedBox(height: 8),
                     Text(
-                      'Choose a beautiful photo of your dish.',
-                      style: TextStyle(fontSize: 14, color: AppColors.textsec),
+                      selectedImage != null
+                          ? 'Tap the image to change it.'
+                          : 'Choose a beautiful photo of your dish.',
+                      style: TextStyle(fontSize: 13, color: AppColors.textsec),
                     ),
                     SizedBox(height: 24),
                     // Recipe Information Heading

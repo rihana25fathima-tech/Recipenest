@@ -32,7 +32,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
         selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
-
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
