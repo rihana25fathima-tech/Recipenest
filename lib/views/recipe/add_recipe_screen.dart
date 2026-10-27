@@ -5,6 +5,8 @@ import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
+import 'package:recipe_next/widget/difficult.dart';
+import 'package:recipe_next/widget/steps_3.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   const new({super.key});
@@ -24,7 +26,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   ];
   String selectedCatagory = 'Dinner';
   String selectedDifficuilt = 'Medium';
-
+  
   TextEditingController reciepenamecontroller = TextEditingController();
   TextEditingController timecontroller = TextEditingController();
   final imagePicker = ImagePicker();
@@ -41,7 +43,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       });
     }
   }
- @override
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -102,9 +105,9 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   Row(
                     spacing: 8,
                     children: [
-                      _buildStep('1 details', true),
-                      _buildStep('2. Ingredients', false),
-                      _buildStep('3. Steps', false),
+                      Steps3(title: '1 details', active: true),
+                      Steps3(title: '2. Ingredients', active: false),
+                      Steps3(title: '3. Steps', active: false),
                     ],
                   ),
                 ],
@@ -282,7 +285,6 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                       ),
                     ),
                     SizedBox(height: 8),
-
                     CustomTextField(
                       controller: timecontroller,
                       hintText: 'Enter cooking time in minutes',
@@ -302,12 +304,27 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     SizedBox(height: 10),
                     // Difficulty Level Options
                     Row(
+                      spacing: 10,
                       children: [
-                        _buildDifficult('Easy'),
-                        SizedBox(width: 10),
-                        _buildDifficult('Medium'),
-                        SizedBox(width: 10),
-                        _buildDifficult('Hard'),
+                        Difficult(
+                          difficulty: "Easy",
+                          selectedDifficuilt: selectedDifficuilt,
+                          onSelected: (value) {
+                            setState(() {
+                              selectedDifficuilt = value;
+                            });
+                          },
+                        ),
+                        Difficult(
+                          difficulty: "Medium",
+                          selectedDifficuilt: selectedDifficuilt,
+                          onSelected: (p0) {},
+                        ),
+                        Difficult(
+                          difficulty: "Hard",
+                          selectedDifficuilt: selectedDifficuilt,
+                          onSelected: (p0) {},
+                        ),
                       ],
                     ),
                   ],
@@ -317,7 +334,6 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
           ],
         ),
       ),
-
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
@@ -325,68 +341,19 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
           child: CustomButton(
             text: 'Next: Add Ingredients',
             onpressed: () {
-              Navigator.pushNamed(context, AppRoutes.addIngredientScreen);
+              Navigator.pushNamed(
+                context,
+                AppRoutes.addIngredientScreen,
+                arguments: {
+                  'name': reciepenamecontroller.text.trim(),
+                  'category': selectedCatagory,
+                  'cookingTime': timecontroller.text.trim(),
+                  'difficulty': selectedDifficuilt,
+                  'image': selectedImage?.path ?? '',
+                },
+              );
             },
             icon: Icons.arrow_forward,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStep(String title, bool active) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 5,
-            decoration: BoxDecoration(
-              color: active ? AppColors.primary : Color(0xFFE0E6F0),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          SizedBox(height: 7),
-          Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 9,
-              color: active ? AppColors.primary : Color(0xFF8A9AB8),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDifficult(String difficulty) {
-    final bool isSelected = selectedDifficuilt == difficulty;
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedDifficuilt = difficulty;
-          });
-        },
-        child: Container(
-          height: 45,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.primary : Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: isSelected ? AppColors.text : AppColors.primary,
-            ),
-          ),
-          child: Text(
-            difficulty,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: isSelected ? Colors.white : AppColors.text1,
-            ),
           ),
         ),
       ),

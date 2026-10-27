@@ -11,7 +11,7 @@ void main()async {
   Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(RecipeModelAdapter());
   await Hive.openBox<UserModel>('open');    
-  await Hive.openBox<RecipeModel>('revipes');
+  await Hive.openBox<RecipeModel>('recipes');
   runApp(const MyApp());
 }
 

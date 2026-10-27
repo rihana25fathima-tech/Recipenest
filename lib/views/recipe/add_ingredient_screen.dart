@@ -3,6 +3,8 @@ import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
+import 'package:recipe_next/widget/ingredients_list.dart';
+import 'package:recipe_next/widget/steps_3.dart';
 
 class AddIngredientScreen extends StatefulWidget {
   const new({super.key});
@@ -14,6 +16,23 @@ class AddIngredientScreen extends StatefulWidget {
 class _AddIngredientScreenState extends State<AddIngredientScreen> {
   TextEditingController ingredientControlle = TextEditingController();
   TextEditingController quantityController = TextEditingController();
+  List<Map<String, String>> ingredients = [];
+  Map<String, dynamic> recipedetails = {};
+  bool argumentsLoaded = false;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!argumentsLoaded) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+
+      if (args is Map) {
+        recipedetails = Map<String, dynamic>.from(args);
+      }
+
+      argumentsLoaded = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,19 +93,17 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                   ),
                   SizedBox(height: 22),
                   Row(
+                    spacing: 8,
                     children: [
-                      _buildStep('1 details', false),
-                      SizedBox(width: 8),
-                      _buildStep('2. Ingredients', true),
-                      SizedBox(width: 8),
-                      _buildStep('3. Steps', false),
+                      Steps3(title: '1 Details', active: false),
+                      Steps3(title: '2 Ingredients', active: true),
+                      Steps3(title: '3 Steps', active: false),
                     ],
                   ),
                 ],
               ),
             ),
             SizedBox(height: 26),
-
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
@@ -96,7 +113,6 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                     // Add New Ingredient Card
                     Container(
                       padding: EdgeInsets.all(16),
-
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
@@ -105,7 +121,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.03),
                             blurRadius: 8,
-                            offset: const Offset(0, 3),
+                            offset:  Offset(0, 3),
                           ),
                         ],
                       ),
@@ -120,9 +136,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                                 color: Color(0xFFFF5038),
                                 size: 17,
                               ),
-
                               SizedBox(width: 7),
-
                               Expanded(
                                 child: Text(
                                   'ADD NEW INGREDIENT',
@@ -133,7 +147,6 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                                   ),
                                 ),
                               ),
-
                               Text(
                                 'Item & Measure',
                                 style: TextStyle(
@@ -177,7 +190,33 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                             height: 42,
                             width: double.infinity,
                             child: OutlinedButton.icon(
-                              onPressed: () {},
+                              onPressed: () {
+                                String ingredient = ingredientControlle.text
+                                    .trim();
+                                String quantity = quantityController.text
+                                    .trim();
+
+                                if (ingredient.isEmpty || quantity.isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Enter ingredient and quantity',
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+                                setState(() {
+                                  ingredients.add({
+                                    'name': ingredient,
+                                    'quantity': quantity,
+                                  });
+
+                                  ingredientControlle.clear();
+                                  quantityController.clear();
+                                });
+                              },
+
                               icon: Icon(
                                 Icons.add,
                                 color: AppColors.primary,
@@ -232,13 +271,20 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    _buildList("1", "Egg", "2"),
-                    SizedBox(height: 8),
-                    _buildList("2", "Milk", "3/4"),
-                    SizedBox(height: 8),
-                    _buildList("3", "Pototao", "4"),
-                    SizedBox(height: 8),
-                    _buildList("3", "Pototao", "4"),
+                    ...ingredients.asMap().entries.map((e) {
+                      int index = e.key;
+                      Map<String, String> ingredient = e.value;
+                      return IngredientsList(
+                        number: '${index + 1}',
+                        name: ingredient['name'] ?? '',
+                        quantity: ingredient['quantity'] ?? '',
+                        onDelete: () {
+                          setState(() {
+                            ingredients.removeAt(index);
+                          });
+                        },
+                      );
+                    }),
                   ],
                 ),
               ),
@@ -269,108 +315,33 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                 child: CustomButton(
                   text: 'Next Instruction',
                   onpressed: () {
-                    Navigator.pushNamed(context, AppRoutes.addInstructions);
+                    if (ingredients.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please add at least one ingredient'),
+                        ),
+                      );
+                      return;
+                    }
+                    final String ingredienttext = ingredients
+                        .map(
+                          (items) => '${items['name']} - ${items['quantity']}',
+                        )
+                        .join(',');
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.addInstructions,
+                      arguments: {
+                        ...recipedetails,
+                        'ingredients': ingredienttext,
+                      },
+                    );
                   },
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  //bild list
-  Widget _buildList(String number, String name, String quantity) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.primary),
-      ),
-
-      child: Row(
-        children: [
-          //number
-          Container(
-            width: 28,
-            height: 28,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Color(0xFFFFF2EE),
-              borderRadius: BorderRadius.circular(9),
-            ),
-            child: Text(
-              number,
-              style: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
-                fontSize: 11,
-              ),
-            ),
-          ),
-          SizedBox(width: 12),
-          // Name and Quantity
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.text1,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  quantity,
-                  style: TextStyle(fontSize: 11, color: AppColors.textsec),
-                ),
-              ],
-            ),
-          ),
-          // Delete Button
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.delete_outline,
-              size: 18,
-              color: Color(0xFF98A8C0),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  //stps widget
-  Widget _buildStep(String title, bool active) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 5,
-            decoration: BoxDecoration(
-              color: active ? AppColors.primary : Color(0xFFE0E6F0),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          SizedBox(height: 7),
-          Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 9,
-              color: active ? AppColors.primary : Color(0xFF8A9AB8),
-            ),
-          ),
-        ],
       ),
     );
   }
