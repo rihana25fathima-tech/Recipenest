@@ -182,6 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.pushNamed(
                               context,
                               AppRoutes.recipeDetailsScreen,
+                              arguments: recipe,
                             );
                           },
 
