@@ -200,7 +200,7 @@ class _LoginScrenState extends State<LoginScren> {
                         hintText: "Enter your email",
                         controller: emailcontroler,
                         prefixIcon: Icons.email_outlined,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.emailAddress, 
                       ),
                       SizedBox(height: 20),
                       Text(

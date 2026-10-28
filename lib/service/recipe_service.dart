@@ -16,4 +16,11 @@ class RecipeService {
  Future<void>deleteRecipes(int index){
   return recipeBox.deleteAt(index);
  }
+ //update
+ Future<void>updateRecipe(RecipeModel recipe)async{
+   final key = recipeBox.keys.firstWhere(
+    (key) => recipeBox.get(key) == recipe,
+  );
+ return recipeBox.putAt(key, recipe);
+ }
 }

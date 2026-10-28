@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_next/model/recipe_model.dart';
 import 'package:recipe_next/routes/app_routes.dart';
+import 'package:recipe_next/service/recipe_service.dart';
 import 'package:recipe_next/theme/app_colors.dart';
+import 'package:recipe_next/widget/catagories.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
+import 'package:recipe_next/widget/recipeCard.dart';
 
 class HomeScreen extends StatefulWidget {
   const new({super.key});
@@ -22,6 +26,40 @@ class _HomeScreenState extends State<HomeScreen> {
     'Dinner',
     'Sweet',
   ];
+  final recipeService = RecipeService();
+  List<RecipeModel> savedRecipes = [];
+  void loadRecipes() {
+    savedRecipes = recipeService.getRecipe();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadRecipes();
+  }
+
+  //sarch bar
+  List<RecipeModel> get filterRecipes {
+    List<RecipeModel> recipes = savedRecipes;
+    if (selectedCatagory != "All") {
+      recipes = recipes
+          .where((recipe) => recipe.category == selectedCatagory)
+          .toList();
+    }
+
+    // Search filter
+    String searchText = searchController.text.trim().toLowerCase();
+    if (searchText.isNotEmpty) {
+      recipes = recipes.where((recipe) {
+        return recipe.name.toLowerCase().contains(searchText) ||
+            recipe.ingredients.toLowerCase().contains(searchText);
+      }).toList();
+    }
+
+    return recipes;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,6 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       prefixIcon: Icons.search,
                       hintText: 'Search recipe or ingredients...',
                       controller: searchController,
+                      onChanged: (value) {
+                        setState(() {});
+                      },
                     ),
                     SizedBox(height: 20),
 
@@ -92,7 +133,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SizedBox(height: 14),
-                    catagories(),
+                    Catagories(
+                      categories: categories,
+                      selectedCatagory: selectedCatagory,
+                      onCategorySelected: (value) {
+                        setState(() {
+                          selectedCatagory = value;
+                        });
+                      },
+                    ),
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Text(
-                          '1 recipes',
+                          '${filterRecipes.length} recipes',
                           style: TextStyle(
                             fontSize: 13,
                             color: AppColors.textsec,
@@ -116,23 +165,39 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 18),
                     //recipdummy
-                    recipeCard(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.recipeDetailsScreen,
-                        );
-                      },
-                      recipeName: 'Classic British Fish and Chips',
-                      category: 'Dinner',
-                      cookingTime: '50 mins',
-                      difficulty: 'Medium',
-                      imageUrl: 'https://i.pinimg.com/1200x/39/e8/9a/39e89ae11f7ef02eecfe9a205aab4e47.jpg',
-                      onFavouriteTap: () {
-                        setState(() {});
-                      },
-                      isFavourite: false,
-                    ),
+                    if (filterRecipes.isEmpty)
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(24),
+                          child: Text(
+                            'No recipes found.',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    else
+                      for (var recipe in filterRecipes)
+                        Recipecard(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.recipeDetailsScreen,
+                            );
+                          },
+
+                          recipeName: recipe.name,
+                          category: recipe.category,
+                          cookingTime: '${recipe.cookinTime} mins',
+                          difficulty: recipe.difficulty,
+                          imageUrl: recipe.image,
+                          onFavouriteTap: () async {
+                            setState(() {
+                              recipe.isFavorite = !recipe.isFavorite;
+                            });
+                            await recipeService.updateRecipe(recipe);
+                          },
+                          isFavourite: recipe.isFavorite,
+                        ),
                   ],
                 ),
               ),
@@ -142,196 +207,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       //floating acction button
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.addRecipeScreen);
+        onPressed: () async {
+          await Navigator.pushNamed(context, AppRoutes.addRecipeScreen);
+          if (!mounted) return;
+          loadRecipes();
         },
         backgroundColor: AppColors.primary,
-        icon:  Icon(Icons.add, color: Colors.white),
-        label:  Text(
+        icon: Icon(Icons.add, color: Colors.white),
+        label: Text(
           'Add Recipe',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-
-  Widget catagories() {
-    return SizedBox(
-      height: 45,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        separatorBuilder: (context, index) {
-          return SizedBox(width: 30);
-        },
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final isSelected = selectedCatagory == categories[index];
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedCatagory = categories[index];
-              });
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  categories[index],
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                    color: isSelected ? AppColors.primary : AppColors.textsec,
-                  ),
-                ),
-                SizedBox(height: 7),
-
-                if (isSelected)
-                  Container(
-                    height: 3,
-                    width: 35,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  //reciepy card
-  Widget recipeCard({
-    required String recipeName,
-    required String category,
-    required String cookingTime,
-    required String difficulty,
-    required String imageUrl,
-    required VoidCallback onFavouriteTap,
-    required bool isFavourite,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 15),
-        decoration: BoxDecoration(
-          color: AppColors.background,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.border),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Recipe Image and icon
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                  child: Image.network(
-                    imageUrl,
-                    height: 140,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                //catagary label
-                Positioned(
-                  left: 12,
-                  bottom: 10,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.black87,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      category,
-                      style: TextStyle(color: Colors.white, fontSize: 11),
-                    ),
-                  ),
-                ),
-                // Favourite Icon
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: InkWell(
-                    onTap: onFavouriteTap,
-                    child: CircleAvatar(
-                      radius: 17,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        isFavourite ? Icons.favorite : Icons.favorite_border,
-                        color: AppColors.primary,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            // Recipe Details
-            Padding(
-              padding: EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    recipeName,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.text1,
-                    ),
-                  ),
-
-                  SizedBox(height: 14),
-
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.access_time,
-                        size: 15,
-                        color: AppColors.primary,
-                      ),
-                      SizedBox(width: 5),
-
-                      Expanded(
-                        child: Text(
-                          cookingTime,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: AppColors.textsec,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 9,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFFF3E0),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          difficulty,
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
     );

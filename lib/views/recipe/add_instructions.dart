@@ -56,7 +56,20 @@ class _AddInstructionsState extends State<AddInstructions> {
       return;
     }
 
-    final String instruction = instructinText;
+  instructinText = instructionController
+    .asMap()
+    .entries
+    .map((entry) {
+      final text = entry.value.text.trim();
+
+      return text.isEmpty
+          ? ''
+          : 'Step ${entry.key + 1}: $text';
+    })
+    .where((step) => step.isNotEmpty)
+    .join('\n');
+
+final String instruction = instructinText;
     //instructin valisation
     if (instruction.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -82,7 +95,7 @@ class _AddInstructionsState extends State<AddInstructions> {
 
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Recipe saved successfully!')));
-      Navigator.pushNamed(context, AppRoutes.bottomNavigationBar);
+      Navigator.popUntil(context, ModalRoute.withName(AppRoutes.bottomNavigationBar));
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(
