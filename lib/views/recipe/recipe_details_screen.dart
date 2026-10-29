@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:recipe_next/model/recipe_model.dart';
+import 'package:recipe_next/routes/app_routes.dart';
+import 'package:recipe_next/service/recipe_service.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/ingrediitemss.dart';
 import 'package:recipe_next/widget/instructionitem.dart';
@@ -13,10 +17,52 @@ class RecipeDetailsScreen extends StatefulWidget {
 }
 
 class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
+  final recipeService = RecipeService();
+  Future<void> delete(RecipeModel recipe) async {
+    final recipes = recipeService.getRecipe();
+    final index = recipes.indexOf(recipe);
+    if (index == -1) return;
+    await recipeService.deleteRecipes(index);
+    if (!mounted) return;
+    Navigator.pop(context, true);
+  }
+
+  int getRecipeIndex(RecipeModel recipe) {
+    return recipeService.getRecipe().indexWhere(
+      (item) => identical(item, recipe),
+    );
+  }
+
+  Future<void> update(RecipeModel recipe) async {
+    final index = getRecipeIndex(recipe);
+    if (index == -1) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Recipe not found')));
+      return;
+    }
+    final result = await Navigator.pushNamed(
+      context,
+      AppRoutes.addRecipeScreen,
+      arguments: {'recipe': recipe, 'index': index},
+    );
+    if (!mounted) return;
+
+    if (result == true) {
+      Navigator.pop(context, true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final recipe = ModalRoute.of(context)!.settings.arguments as RecipeModel;
-
+    final List<String> ingredient = recipe.ingredients
+        .split(',')
+        .where((item) => item.trim().isNotEmpty)
+        .toList();
+    final List<String> instructions = recipe.instruction
+        .split('\n')
+        .where((step) => step.trim().isNotEmpty)
+        .toList();
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -33,19 +79,38 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                         SizedBox(
                           width: double.infinity,
                           height: 220,
-                          child: Image.network(
-                            'https://i.pinimg.com/1200x/39/e8/9a/39e89ae11f7ef02eecfe9a205aab4e47.jpg',
-                            fit: BoxFit.cover,
-                          ),
+                          child:
+                              recipe.image.isNotEmpty &&
+                                  File(recipe.image).existsSync()
+                              ? Image.file(
+                                  File(recipe.image),
+                                  width: double.infinity,
+                                  height: 220,
+                                  fit: BoxFit.cover,
+                                )
+                              : Container(
+                                  width: double.infinity,
+                                  height: 220,
+                                  color: Colors.grey.shade200,
+                                  child: Icon(
+                                    Icons.restaurant,
+                                    size: 70,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                         ),
+
                         Positioned(
                           top: 12,
                           left: 14,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.arrow_back),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.arrow_back),
+                            ),
                           ),
                         ),
                       ],
@@ -62,6 +127,15 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          // Category
+                          Text(
+                            recipe.category,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.textsec,
                             ),
                           ),
                           SizedBox(height: 20),
@@ -90,19 +164,20 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                           SizedBox(height: 24),
                           // Ingredients Heading
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                'Ingredients',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                              Expanded(
+                                child: Text(
+                                  'Ingredients',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                               Spacer(),
                               Text(
-                                'Check All',
+                                '${ingredient.length} items',
                                 style: TextStyle(
                                   color: Color(0xFFE85D3F),
                                   fontSize: 14,
@@ -110,38 +185,39 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                               ),
                             ],
                           ),
+
                           SizedBox(height: 8),
-                          //ing list
-                          Ingrediitemss(
-                            name: "white fish fillets (cod or haddock)",
-                            quantity: "2",
-                          ),
-                          SizedBox(height: 5),
-                          Ingrediitemss(
-                            name: "white fish fillets (cod or haddock)",
-                            quantity: "2",
-                          ),
-                          SizedBox(height: 5),
-                          Ingrediitemss(
-                            name: "white fish fillets (cod or haddock)",
-                            quantity: "2",
-                          ),
+                          //ing list dyanmic
+                          ...ingredient.map((item) {
+                            final parts = item.split(' - ');
+                            final String name = parts.first.trim();
+                            final String quantity = parts.length > 1
+                                ? parts.sublist(1).join(' - ').trim()
+                                : '';
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Ingrediitemss(
+                                name: name,
+                                quantity: quantity,
+                              ),
+                            );
+                          }),
 
                           SizedBox(height: 20),
 
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                'Cooking Instructions',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                              Expanded(
+                                child: Text(
+                                  'Cooking Instructions',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
 
-                              Spacer(),
                               Text(
                                 'Step-by-Step',
                                 style: TextStyle(
@@ -152,35 +228,27 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                             ],
                           ),
                           SizedBox(height: 8),
-                          Instructionitem(
-                            number: "1",
-                            title: "Prepare the Potatoes",
-                            description:
-                                "Peel the potatoes and cut them into thick strips."
-                                "Rinse the potato strips in cold water and pat them dry."
-                                "Heat oil in a deep pan and fry the potatoes until they are soft but not golden."
-                                "Remove the potatoes and set them aside.",
-                          ),
+                          ...instructions.asMap().entries.map((entry) {
+                            final int index = entry.key;
+                            final String step = entry.value.trim();
+                            // "Step 1: " remove cheyyunnu
+                            final String description = step.replaceFirst(
+                              RegExp(
+                                r'^Step\s+\d+\s*:\s*',
+                                caseSensitive: false,
+                              ),
+                              '',
+                            );
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
 
-                          Instructionitem(
-                            number: "1",
-                            title: "Prepare the Potatoes",
-                            description:
-                                "Peel the potatoes and cut them into thick strips."
-                                "Rinse the potato strips in cold water and pat them dry."
-                                "Heat oil in a deep pan and fry the potatoes until they are soft but not golden."
-                                "Remove the potatoes and set them aside.",
-                          ),
-
-                          Instructionitem(
-                            number: "1",
-                            title: "Prepare the Potatoes",
-                            description:
-                                "Peel the potatoes and cut them into thick strips."
-                                "Rinse the potato strips in cold water and pat them dry."
-                                "Heat oil in a deep pan and fry the potatoes until they are soft but not golden."
-                                "Remove the potatoes and set them aside.",
-                          ),
+                              child: Instructionitem(
+                                number: '${index + 1}',
+                                title: 'Step ${index + 1}',
+                                description: description,
+                              ),
+                            );
+                          }),
 
                           SizedBox(height: 24),
                         ],
@@ -205,7 +273,9 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                 child: SizedBox(
                   height: 48,
                   child: OutlinedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      delete(recipe);
+                    },
                     icon: Icon(Icons.delete, size: 18),
                     label: Text('Delete'),
                     style: OutlinedButton.styleFrom(
@@ -226,7 +296,9 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                 child: SizedBox(
                   height: 48,
                   child: OutlinedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      update(recipe);
+                    },
                     icon: Icon(Icons.edit, size: 18),
                     label: Text('Edit'),
                     style: OutlinedButton.styleFrom(

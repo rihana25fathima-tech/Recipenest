@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_next/model/recipe_model.dart';
-import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/service/recipe_service.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
@@ -24,20 +23,35 @@ class _AddInstructionsState extends State<AddInstructions> {
   bool isSaving = false;
   String instructinText = '';
   final recipeService = RecipeService();
-  void savedRecipe() async {}
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    if (!argumentsLoaded) {
-      final args = ModalRoute.of(context)?.settings.arguments;
-
-      if (args is Map) {
-        recipedetails = Map<String, dynamic>.from(args);
-      }
-
-      argumentsLoaded = true;
+    if (argumentsLoaded) return;
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is Map) {
+      recipedetails = Map<String, dynamic>.from(args);
     }
+    final recipe = recipedetails['editingRecipe'];
+    if (recipe is RecipeModel && recipe.instruction.trim().isNotEmpty) {
+      final steps = recipe.instruction
+          .split('\n')
+          .where((step) => step.trim().isNotEmpty)
+          .map((step) {
+            return step.replaceFirst(
+              RegExp(r'^Step\s+\d+\s*:\s*', caseSensitive: false),
+              '',
+            );
+          })
+          .toList();
+      for (final controller in instructionController) {
+        controller.dispose();
+      }
+      instructionController = steps
+          .map((step) => TextEditingController(text: step))
+          .toList();
+    }
+    argumentsLoaded = true;
   }
 
   Future<void> saveRecipe() async {
@@ -49,27 +63,26 @@ class _AddInstructionsState extends State<AddInstructions> {
     }
     //list edthu
     final String ingredients = recipedetails['ingredients']?.toString() ?? '';
-    if (ingredients.isEmpty) {
+    if (ingredients.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please add at least one ingredient')),
       );
       return;
     }
 
-  instructinText = instructionController
-    .asMap()
-    .entries
-    .map((entry) {
-      final text = entry.value.text.trim();
+    final String instruction = instructionController
+        .asMap()
+        .entries
+        .map((entry) {
+          final text = entry.value.text.trim();
+          if (text.isEmpty) {
+            return '';
+          }
+          return 'Step ${entry.key + 1}: $text';
+        })
+        .where((step) => step.isNotEmpty)
+        .join('\n');
 
-      return text.isEmpty
-          ? ''
-          : 'Step ${entry.key + 1}: $text';
-    })
-    .where((step) => step.isNotEmpty)
-    .join('\n');
-
-final String instruction = instructinText;
     //instructin valisation
     if (instruction.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -77,6 +90,10 @@ final String instruction = instructinText;
       );
       return;
     }
+    final RecipeModel? oldRecipe =
+        recipedetails['editingRecipe'] as RecipeModel?;
+
+    final int? index = recipedetails['index'] as int?;
     final recipeModel = RecipeModel(
       name: recipedetails['name'] ?? '',
       category: recipedetails['category'] ?? '',
@@ -85,19 +102,39 @@ final String instruction = instructinText;
       cookinTime: recipedetails['cookingTime'] ?? '',
       difficulty: recipedetails['difficulty'] ?? '',
       image: recipedetails['image'] ?? '',
+      isFavorite: oldRecipe?.isFavorite ?? false,
     );
     setState(() {
       isSaving = true;
     });
     try {
-      await recipeService.addRecipe(recipeModel);
+      if (oldRecipe != null) {
+        // Existing recipe update cheyyunnu
+        if (index == null || index < 0) {
+          throw Exception('Recipe index not found');
+        }
+        await recipeService.updateRecipe(index, recipeModel);
+      } else {
+        //new recipe
+        await recipeService.addRecipe(recipeModel);
+      }
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Recipe saved successfully!')));
-      Navigator.popUntil(context, ModalRoute.withName(AppRoutes.bottomNavigationBar));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            oldRecipe != null
+                ? 'Recipe Update successfully!'
+                : 'Recipe saved successfully!',
+          ),
+        ),
+      );
+
+      // Edit flow: previous screens-ilekku succes result pass cheyyuka
+      Navigator.pop(context, true);
     } catch (error) {
       if (!mounted) return;
+
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Failed to save recipe: $error')));
@@ -108,6 +145,14 @@ final String instruction = instructinText;
         });
       }
     }
+  }
+
+  @override
+  void dispose() {
+    for (final controller in instructionController) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override

@@ -5,7 +5,7 @@ import 'package:recipe_next/service/recipe_service.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/catagories.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
-import 'package:recipe_next/widget/recipeCard.dart';
+import 'package:recipe_next/widget/recipe_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const new({super.key});
@@ -178,12 +178,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     else
                       for (var recipe in filterRecipes)
                         Recipecard(
-                          onTap: () {
-                            Navigator.pushNamed(
+                          onTap: () async {
+                            final result = await Navigator.pushNamed(
                               context,
                               AppRoutes.recipeDetailsScreen,
                               arguments: recipe,
                             );
+                            if (!mounted) return;
+                            if (result == true) {
+                              loadRecipes();
+                            }
                           },
 
                           recipeName: recipe.name,
@@ -191,13 +195,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           cookingTime: '${recipe.cookinTime} mins',
                           difficulty: recipe.difficulty,
                           imageUrl: recipe.image,
+                          isFavourite: recipe.isFavorite,
                           onFavouriteTap: () async {
+                            final index = savedRecipes.indexWhere(
+                              (item) => identical(item, recipe),
+                            );
+
+                            if (index == -1) return;
                             setState(() {
                               recipe.isFavorite = !recipe.isFavorite;
                             });
-                            await recipeService.updateRecipe(recipe);
+                            await recipeService.updateRecipe(index, recipe);
                           },
-                          isFavourite: recipe.isFavorite,
                         ),
                   ],
                 ),

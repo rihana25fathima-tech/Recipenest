@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipe_next/model/recipe_model.dart';
 import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
@@ -26,7 +28,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   ];
   String selectedCatagory = 'Dinner';
   String selectedDifficuilt = 'Medium';
-  
+
   TextEditingController reciepenamecontroller = TextEditingController();
   TextEditingController timecontroller = TextEditingController();
   final imagePicker = ImagePicker();
@@ -42,6 +44,41 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         selectedImage = File(image.path);
       });
     }
+  }
+
+  RecipeModel? editingRecipe;
+  int? editingIndex;
+  bool argumentsLoaded = false;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (argumentsLoaded) return;
+
+    final args = ModalRoute.of(context)?.settings.arguments;
+
+    if (args is Map) {
+      editingRecipe = args['recipe'] as RecipeModel?;
+      editingIndex = args['index'] as int?;
+    }
+
+    if (editingRecipe != null) {
+      reciepenamecontroller.text = editingRecipe!.name;
+      timecontroller.text = editingRecipe!.cookinTime;
+
+      selectedCatagory = editingRecipe!.category;
+      selectedDifficuilt = editingRecipe!.difficulty;
+
+      if (editingRecipe!.image.isNotEmpty) {
+        final file = File(editingRecipe!.image);
+
+        if (file.existsSync()) {
+          selectedImage = file;
+        }
+      }
+    }
+
+    argumentsLoaded = true;
   }
 
   @override
@@ -318,12 +355,20 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                         Difficult(
                           difficulty: "Medium",
                           selectedDifficuilt: selectedDifficuilt,
-                          onSelected: (p0) {},
+                          onSelected: (value) {
+                            setState(() {
+                              selectedDifficuilt = value;
+                            });
+                          },
                         ),
                         Difficult(
                           difficulty: "Hard",
                           selectedDifficuilt: selectedDifficuilt,
-                          onSelected: (p0) {},
+                          onSelected: (value) {
+                            setState(() {
+                              selectedDifficuilt = value;
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -340,8 +385,17 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
           color: AppColors.background,
           child: CustomButton(
             text: 'Next: Add Ingredients',
-            onpressed: () {
-              Navigator.pushNamed(
+            onpressed: () async {
+              if (reciepenamecontroller.text.trim().isEmpty ||
+                  timecontroller.text.trim().isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Please enter recipe name and cooking time'),
+                  ),
+                );
+                return;
+              }
+              final result = await Navigator.pushNamed(
                 context,
                 AppRoutes.addIngredientScreen,
                 arguments: {
@@ -349,9 +403,15 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   'category': selectedCatagory,
                   'cookingTime': timecontroller.text.trim(),
                   'difficulty': selectedDifficuilt,
-                  'image': selectedImage?.path ?? '',
+                  'image': selectedImage?.path ?? editingRecipe?.image ?? '',
+                  'editingRecipe': editingRecipe,
+                  'index': editingIndex,
                 },
               );
+              if (!mounted) return;
+              if (result == true) {
+                Navigator.pop(context, true);
+              }
             },
             icon: Icons.arrow_forward,
           ),

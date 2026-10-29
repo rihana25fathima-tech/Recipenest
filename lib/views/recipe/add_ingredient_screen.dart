@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_next/model/recipe_model.dart';
 import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
@@ -30,6 +31,21 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
         recipedetails = Map<String, dynamic>.from(args);
       }
 
+      final recipe = recipedetails['editingRecipe'];
+
+      if (recipe is RecipeModel && recipe.ingredients.trim().isNotEmpty) {
+        final items = recipe.ingredients.split(',');
+
+        ingredients = items.map((item) {
+          final parts = item.split(' - ');
+          return <String, String>{
+            'name': parts.first.trim(),
+            'quantity': parts.length > 1
+                ? parts.sublist(1).join(' - ').trim()
+                : '',
+          };
+        }).toList();
+      }
       argumentsLoaded = true;
     }
   }
@@ -121,7 +137,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.03),
                             blurRadius: 8,
-                            offset:  Offset(0, 3),
+                            offset: Offset(0, 3),
                           ),
                         ],
                       ),
@@ -314,10 +330,10 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                 flex: 6,
                 child: CustomButton(
                   text: 'Next Instruction',
-                  onpressed: () {
+                  onpressed: () async {
                     if (ingredients.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text('Please add at least one ingredient'),
                         ),
                       );
@@ -328,7 +344,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                           (items) => '${items['name']} - ${items['quantity']}',
                         )
                         .join(',');
-                    Navigator.pushNamed(
+                    final result = await Navigator.pushNamed(
                       context,
                       AppRoutes.addInstructions,
                       arguments: {
@@ -336,6 +352,11 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                         'ingredients': ingredienttext,
                       },
                     );
+                    if (!mounted) return;
+
+                    if (result == true) {
+                      Navigator.pop(context, true);
+                    }
                   },
                 ),
               ),
