@@ -91,10 +91,13 @@ class Recipecard extends StatelessWidget {
                       child: SizedBox(
                         height: 42,
                         width: 42,
-
                         child: Icon(
-                          isFavourite ? Icons.favorite : Icons.favorite_border,
-                          color: AppColors.primary,
+                          isFavourite 
+                          ? Icons.favorite 
+                          : Icons.favorite_border,
+                          color: isFavourite
+                          ?Colors.red
+                          :Colors.grey,
                           size: 22,
                         ),
                       ),

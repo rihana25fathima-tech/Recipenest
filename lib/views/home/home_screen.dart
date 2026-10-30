@@ -32,7 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
     savedRecipes = recipeService.getRecipe();
     setState(() {});
   }
-
+  void refreshRecipes() {
+    setState(() {
+      savedRecipes = recipeService.getRecipe();
+    });
+  }
   @override
   void initState() {
     super.initState();
@@ -58,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return recipes;
+    
   }
 
   @override
@@ -198,7 +203,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           isFavourite: recipe.isFavorite,
                           onFavouriteTap: () async {
                             final index = savedRecipes.indexWhere(
-                              (item) => identical(item, recipe),
+                              (item) =>
+                                  item.name == recipe.name &&
+                                  item.category == recipe.category,
                             );
 
                             if (index == -1) return;
@@ -206,6 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               recipe.isFavorite = !recipe.isFavorite;
                             });
                             await recipeService.updateRecipe(index, recipe);
+
                           },
                         ),
                   ],

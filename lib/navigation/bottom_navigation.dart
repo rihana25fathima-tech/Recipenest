@@ -13,11 +13,12 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
-  List<Widget> pages = [
-    HomeScreen(), 
-    FavoriteScreen(), 
-    ProfileScreen()
-    ];
+  final favoriteKey = GlobalKey<FavoriteScreenState>();
+  late final List<Widget> pages = [
+    HomeScreen(),
+    FavoriteScreen(key: favoriteKey),
+    ProfileScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +29,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
           setState(() {
             currentIndex = value;
           });
+          if (value == 1) {
+            favoriteKey.currentState?.refreshFavorites();
+          }
         },
         selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey,
