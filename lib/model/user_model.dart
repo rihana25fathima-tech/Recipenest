@@ -8,10 +8,12 @@ class UserModel {
   String email;
   @HiveField(2)
   String password;
- 
+  @HiveField(3)
+  bool isLoggedIn;
   UserModel({
     required this.name,
     required this.email,
     required this.password,
+    this.isLoggedIn = false,
   });
 }

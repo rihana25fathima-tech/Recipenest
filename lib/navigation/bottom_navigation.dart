@@ -20,6 +20,20 @@ class _BottomNavigationState extends State<BottomNavigation> {
     FavoriteScreen(key: favoriteKey),
     ProfileScreen(),
   ];
+  void changeTab(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+
+    if (index == 0) {
+      homeKey.currentState?.refreshRecipes();
+    }
+
+    if (index == 1) {
+      favoriteKey.currentState?.refreshFavorites();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,15 +41,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
-          if (value == 0) {
-            homeKey.currentState?.refreshRecipes();
-          }
-          if (value == 1) {
-            favoriteKey.currentState?.refreshFavorites();
-          }
+          changeTab(value);
         },
         selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey,

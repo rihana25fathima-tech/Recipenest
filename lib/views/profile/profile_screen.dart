@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:recipe_next/model/recipe_model.dart';
+import 'package:recipe_next/model/user_model.dart';
 import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
+import 'package:recipe_next/widget/build_menu_item.dart';
+import 'package:recipe_next/widget/build_pofilecard.dart';
+import 'package:recipe_next/widget/build_stat_card.dart';
 
 class ProfileScreen extends StatefulWidget {
   const new({super.key});
@@ -10,6 +16,100 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final userbox = Hive.box<UserModel>('open');
+  String userName = '';
+  String usereEmail = '';
+  final recipeBox = Hive.box<RecipeModel>('recipes');
+
+  int totalRecipes = 0;
+  int favoriteRecipes = 0;
+  void updateRecipeCount() {
+    setState(() {
+      totalRecipes = recipeBox.length;
+
+      favoriteRecipes = recipeBox.values
+          .where((recipe) => recipe.isFavorite)
+          .length;
+    });
+  }
+
+  void getUserdeatails() {
+    String name = '';
+    String email = '';
+    for (UserModel user in userbox.values) {
+      if (user.isLoggedIn) {
+        name = user.name;
+        email = user.email;
+        break;
+      }
+    }
+    setState(() {
+      userName = name;
+      usereEmail = email;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserdeatails();
+    updateRecipeCount();
+    recipeBox.listenable().addListener(updateRecipeCount);
+  }
+
+  @override
+  void dispose() {
+    recipeBox.listenable().removeListener(updateRecipeCount);
+    super.dispose();
+  }
+
+  void logout() {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          title: Text('Logout', style: TextStyle(fontWeight: FontWeight.bold)),
+          content: Text('Are you sure you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: Text('Cancel', style: TextStyle(color: AppColors.textsec)),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(dialogContext);
+
+                for (int i = 0; i < userbox.length; i++) {
+                  final user = userbox.getAt(i)!;
+
+                  if (user.isLoggedIn) {
+                    user.isLoggedIn = false;
+                    await userbox.putAt(i, user);
+                    break;
+                  }
+                }
+
+                if (!mounted) return;
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRoutes.login,
+                  (route) => false,
+                );
+              },
+              child: Text('Logout', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,23 +165,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     SizedBox(height: 20),
                     // Profile Card
-                    _buildProfileCard(),
+                    BuildPofilecard(userEmail: usereEmail, userName: userName),
                     SizedBox(height: 18),
                     Row(
                       children: [
                         Expanded(
-                          child: _buildStatCard(
+                          child: BuildStatCard(
                             icon: Icons.menu_book,
-                            count: '1',
+                            count: totalRecipes.toString(),
                             title: 'Total Recipes',
                             onTap: () {},
                           ),
                         ),
                         SizedBox(width: 11),
                         Expanded(
-                          child: _buildStatCard(
+                          child: BuildStatCard(
                             icon: Icons.favorite,
-                            count: '1',
+                            count: favoriteRecipes.toString(),
                             title: 'Favourite Recipes',
                             onTap: () {},
                           ),
@@ -120,10 +220,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-      
+
                     SizedBox(height: 8),
-                    _buildMenuItem(
+                    BuildMenuItem(
                       icon: Icons.favorite,
+
                       title: 'My Favourite Recipes',
                       trailing: '1 item',
                       onTap: () {
@@ -131,7 +232,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     // About RecipeNest
-                    _buildMenuItem(
+                    BuildMenuItem(
                       icon: Icons.info,
                       title: 'About RecipeNest',
                       onTap: () {
@@ -139,7 +240,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     //my recipe
-                    _buildMenuItem(
+                    BuildMenuItem(
                       icon: Icons.restaurant_rounded,
                       title: "My Recipes",
                       onTap: () {
@@ -150,11 +251,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     // Logout
-                    _buildMenuItem(
+                    BuildMenuItem(
                       icon: Icons.logout,
                       title: 'Logout',
                       onTap: () {
-                        _showLogoutDialog(context);
+                        logout();
                       },
                     ),
                   ],
@@ -167,174 +268,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  //profilcard
-  Widget _buildProfileCard() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.text,
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: Color.fromARGB(255, 236, 178, 178)),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              // Default Avatar
-              Container(
-                height: 66,
-                width: 66,
-                // alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(22),
-                ),
-                child: Icon(
-                  Icons.person_rounded,
-                  color: Color.fromARGB(255, 243, 238, 238),
-                  size: 25,
-                ),
-              ),
-              SizedBox(width: 14),
-              // User Details
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            'User name',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.text1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'user email',
-                      style: TextStyle(fontSize: 11, color: AppColors.text1),
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.editProfileScreen);
-                },
-                icon: Icon(
-                  Icons.chevron_right,
-                  color: Color.fromARGB(255, 36, 34, 34),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   // Statistics Card
-  Widget _buildStatCard({
-    required IconData icon,
-    required String count,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 11),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.primary),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 241, 216, 211),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, size: 19, color: AppColors.primary),
-          ),
-          SizedBox(width: 5),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Fixed Count
-              Text(
-                count,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
-                ),
-              ),
-              SizedBox(height: 5),
-              // Title
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 13, color: AppColors.text1),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Menu Item
-  Widget _buildMenuItem({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-    String? trailing,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-        child: Row(
-          children: [
-            // Icon Container
-            Container(
-              padding: EdgeInsets.all(9),
-              decoration: BoxDecoration(
-                color: Color(0xFFFFF2EF),
-                borderRadius: BorderRadius.circular(9),
-              ),
-              child: Icon(icon, size: 18, color: AppColors.primary),
-            ),
-            SizedBox(width: 12),
-            // Title
-            Expanded(
-              child: Text(
-                title,
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-              ),
-            ),
-            // Trailing Text
-            if (trailing != null)
-              Text(
-                trailing,
-                style: TextStyle(fontSize: 10, color: AppColors.textsec),
-              ),
-            SizedBox(width: 8),
-            // Arrow
-            Icon(Icons.chevron_right, size: 18, color: Color(0xFFB0B0B0)),
-          ],
-        ),
-      ),
-    );
-  }
 
   void _showAboutDialog(BuildContext context) {
     showDialog(
@@ -361,42 +295,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Navigator.pop(dialogContext);
               },
               child: Text('OK', style: TextStyle(color: AppColors.primary)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showLogoutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
-          ),
-          title: Text('Logout', style: TextStyle(fontWeight: FontWeight.bold)),
-          content: Text('Are you sure you want to logout?'),
-          actions: [
-            // Cancel
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-              },
-              child: Text('Cancel', style: TextStyle(color: AppColors.textsec)),
-            ),
-            // Logout
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  AppRoutes.login,
-                  (route) => false,
-                );
-              },
-              child: Text('Logout', style: TextStyle(color: Colors.red)),
             ),
           ],
         );
