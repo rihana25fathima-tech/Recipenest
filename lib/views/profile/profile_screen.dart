@@ -165,7 +165,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     SizedBox(height: 20),
                     // Profile Card
-                    BuildPofilecard(userEmail: usereEmail, userName: userName),
+                    BuildPofilecard(
+                      userEmail: usereEmail,
+                      userName: userName,
+                      onProfileUpdated: getUserdeatails,
+                    ),
                     SizedBox(height: 18),
                     Row(
                       children: [
@@ -222,15 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
 
                     SizedBox(height: 8),
-                    BuildMenuItem(
-                      icon: Icons.favorite,
-
-                      title: 'My Favourite Recipes',
-                      trailing: '1 item',
-                      onTap: () {
-                        Navigator.pushNamed(context, AppRoutes.favorite);
-                      },
-                    ),
+                 
                     // About RecipeNest
                     BuildMenuItem(
                       icon: Icons.info,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/theme/app_colors.dart';
+import 'package:recipe_next/views/profile/edit_profile_screen.dart';
 
 class BuildPofilecard extends StatelessWidget {
   final String userName;
   final String userEmail;
-
-  const new({super.key, required this.userName, required this.userEmail});
+final VoidCallback onProfileUpdated;
+  const new({super.key, required this.userName, required this.userEmail, required this.onProfileUpdated,});
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +66,17 @@ class BuildPofilecard extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.editProfileScreen);
+                onPressed: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfileScreen(),
+                    ),
+                  );
+
+                  if (result == true) {
+                    onProfileUpdated();
+                  }
                 },
                 icon: Icon(
                   Icons.chevron_right,
