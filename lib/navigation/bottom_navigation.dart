@@ -14,8 +14,9 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
   final favoriteKey = GlobalKey<FavoriteScreenState>();
+  final homeKey = GlobalKey<HomeScreenState>();
   late final List<Widget> pages = [
-    HomeScreen(),
+    HomeScreen(key: homeKey),
     FavoriteScreen(key: favoriteKey),
     ProfileScreen(),
   ];
@@ -29,6 +30,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
           setState(() {
             currentIndex = value;
           });
+          if (value == 0) {
+            homeKey.currentState?.refreshRecipes();
+          }
           if (value == 1) {
             favoriteKey.currentState?.refreshFavorites();
           }

@@ -319,7 +319,9 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                 child: SizedBox(
                   height: 48,
                   child: OutlinedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoutes.bottomNavigationBar);
+                    },
                     icon: Icon(Icons.check, size: 20),
                     label: Text('Ok'),
                     style: OutlinedButton.styleFrom(

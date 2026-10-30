@@ -11,10 +11,10 @@ class HomeScreen extends StatefulWidget {
   const new({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
   String selectedCatagory = 'All';
 
