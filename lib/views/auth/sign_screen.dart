@@ -62,7 +62,7 @@ class _SignScreenState extends State<SignScreen> {
     Navigator.pushReplacementNamed(context, AppRoutes.login);
   }
 
-  //
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

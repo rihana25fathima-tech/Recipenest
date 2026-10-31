@@ -352,7 +352,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                         'ingredients': ingredienttext,
                       },
                     );
-                    if (!mounted) return;
+                    if (!context.mounted) return;
 
                     if (result == true) {
                       Navigator.pop(context, true);

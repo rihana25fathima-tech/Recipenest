@@ -408,7 +408,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   'index': editingIndex,
                 },
               );
-              if (!mounted) return;
+              if (!context.mounted) return;
               if (result == true) {
                 Navigator.pop(context, true);
               }

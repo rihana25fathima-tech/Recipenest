@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:recipe_next/navigation/bottom_navigation.dart';
+import 'package:recipe_next/views/auth/forgot_paas.dart';
 import 'package:recipe_next/views/auth/login_scren.dart';
 import 'package:recipe_next/views/auth/sign_screen.dart';
 import 'package:recipe_next/views/favorite/favorite_screen.dart';
@@ -25,6 +26,7 @@ class AppRoutes {
   static String addInstructions = '/addInstructions';
   static String recipeDetailsScreen = '/recipeDetailsScreen';
   static String editProfileScreen = '/editProfileScreen';
+  static String forgorpasword ='/forgorpasword';
   static Map<String, WidgetBuilder> routes = {
     splash: (context) => Splashscreen(),
     login: (context) => LoginScren(),
@@ -38,5 +40,6 @@ class AppRoutes {
     addInstructions: (context) => AddInstructions(),
     recipeDetailsScreen: (context) => RecipeDetailsScreen(),
     editProfileScreen :(context) => EditProfileScreen(),
+    forgorpasword:(context) => ForgotPasswordDialog(),
   };
 }

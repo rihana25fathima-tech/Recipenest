@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_next/routes/app_routes.dart';
+import 'package:recipe_next/service/auth_service.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 
 class Splashscreen extends StatefulWidget {
@@ -10,6 +11,7 @@ class Splashscreen extends StatefulWidget {
 }
 
 class _SplashscreenState extends State<Splashscreen> {
+  final authService = AuthService();
   @override
   void initState() {
     super.initState();
@@ -18,8 +20,14 @@ class _SplashscreenState extends State<Splashscreen> {
 
   Future<void> tologin() async {
     await Future.delayed(Duration(seconds: 3));
+    // Check login status
+    bool isLoggedIn = await authService.checkLoginStatus();
     if (!mounted) return;
-    Navigator.pushReplacementNamed(context, AppRoutes.login);
+    if (isLoggedIn) {
+      Navigator.pushReplacementNamed(context, AppRoutes.bottomNavigationBar);
+    } else {
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
+    }
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:recipe_next/model/user_model.dart';
+import 'package:recipe_next/service/auth_service.dart';
 import 'package:recipe_next/theme/app_colors.dart';
 import 'package:recipe_next/widget/custom_button.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
@@ -13,6 +14,7 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  final authService = AuthService();
   late TextEditingController namecontroller;
   late UserModel currentUser;
 
@@ -20,13 +22,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     namecontroller = TextEditingController();
-    // Get current logged-in user
-    final userBox = Hive.box<UserModel>('open');
-
-    currentUser = userBox.values.firstWhere((user) => user.isLoggedIn == true);
-    // Show existing name
-    namecontroller.text = currentUser.name;
+    loadUser();
   }
+  Future<void> loadUser() async {
+
+  // Get logged-in email from SharedPreferences
+  String? email = await authService.getLoggedInUser();
+
+  if (email == null) return;
+
+  final userBox = Hive.box<UserModel>('open');
+
+  // Find user using email
+  currentUser = userBox.values.firstWhere(
+    (user) => user.email == email,
+  );
+
+  namecontroller.text = currentUser.name;
+
+  if (mounted) {
+    setState(() {});
+  }
+}
 
   @override
   void dispose() {
@@ -183,7 +200,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         // Save in Hive
                         await userBox.putAt(index, currentUser);
 
-                        if (!mounted) return;
+                        if (!context.mounted) return;
 
                         // Close edit page
                         Navigator.pop(context, true);

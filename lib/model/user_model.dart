@@ -10,6 +10,7 @@ class UserModel {
   String password;
   @HiveField(3)
   bool isLoggedIn;
+  
   UserModel({
     required this.name,
     required this.email,
