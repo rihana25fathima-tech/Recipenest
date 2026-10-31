@@ -142,25 +142,11 @@ class Recipecard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 9,
-                              vertical: 5,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFFFF3E0),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              difficulty,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                          ),
+                
                         ],
                       ),
+                      SizedBox(height: 10,),
+                    
                     ],
                   ),
                 ),
