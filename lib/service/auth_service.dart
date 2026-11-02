@@ -20,7 +20,6 @@ class AuthService {
       email: email.trim(),
       password: password,
     );
-    //save user in hive
     await bbox.add(newUser);
     return true;
   }
@@ -79,7 +78,6 @@ class AuthService {
 
   // Logout
   Future<void> logout() async {
-    // Update Hive login status
     for (int i = 0; i < bbox.length; i++) {
       final user = bbox.getAt(i)!;
       if (user.isLoggedIn) {

@@ -28,8 +28,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
 
     if (!email.contains('@')) {
       email = '$email@gmail.com';
-    }
-
+    } 
     if (password.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Password must be at least 6 characters')),
@@ -39,9 +38,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
     setState(() {
       isLoading = true;
     });
-
     bool success = await authService.resetPassword(email, password);
-
     if (!mounted) return;
 
     setState(() {
@@ -49,7 +46,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
     });
 
     if (success) {
-      Navigator.pop(context); 
+      Navigator.pop(context);
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Password updated successfully')));
@@ -70,7 +67,6 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: AppColors.background,
-
       title: Row(
         children: [
           Icon(Icons.lock_reset, color: AppColors.primary, size: 25),

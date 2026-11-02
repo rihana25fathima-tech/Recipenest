@@ -61,11 +61,10 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       editingRecipe = args['recipe'] as RecipeModel?;
       editingIndex = args['index'] as int?;
     }
-
+//exist
     if (editingRecipe != null) {
       reciepenamecontroller.text = editingRecipe!.name;
       timecontroller.text = editingRecipe!.cookinTime;
-
       selectedCatagory = editingRecipe!.category;
       selectedDifficuilt = editingRecipe!.difficulty;
 
@@ -77,7 +76,6 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         }
       }
     }
-
     argumentsLoaded = true;
   }
 

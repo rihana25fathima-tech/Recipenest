@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:recipe_next/model/recipe_model.dart';
 import 'package:recipe_next/routes/app_routes.dart';
@@ -240,7 +239,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                               '',
                             );
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
+                              padding:  EdgeInsets.only(bottom: 10),
 
                               child: Instructionitem(
                                 number: '${index + 1}',

@@ -57,7 +57,6 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // fixed
             //back button
             Padding(
               padding: EdgeInsetsGeometry.fromLTRB(18, 12, 18, 0),
@@ -207,10 +206,8 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                             width: double.infinity,
                             child: OutlinedButton.icon(
                               onPressed: () {
-                                String ingredient = ingredientControlle.text
-                                    .trim();
-                                String quantity = quantityController.text
-                                    .trim();
+                                String ingredient = ingredientControlle.text.trim();
+                                String quantity = quantityController.text.trim();
 
                                 if (ingredient.isEmpty || quantity.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -232,7 +229,6 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                                   quantityController.clear();
                                 });
                               },
-
                               icon: Icon(
                                 Icons.add,
                                 color: AppColors.primary,

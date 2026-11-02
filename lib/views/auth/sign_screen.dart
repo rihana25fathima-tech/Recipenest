@@ -37,7 +37,7 @@ class _SignScreenState extends State<SignScreen> {
       return;
     }
     //emailvalidation
-    if (!email.contains("@")) {
+    if (!email.endsWith("@gmail.com")) {
       email = "$email@gmail.com";
     }
     //passwordvelidation

@@ -25,10 +25,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
       currentIndex = index;
     });
 
-    if (index == 0) {
-      homeKey.currentState?.refreshRecipes();
-    }
-
     if (index == 1) {
       favoriteKey.currentState?.refreshFavorites();
     }

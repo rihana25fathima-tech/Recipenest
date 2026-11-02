@@ -216,8 +216,8 @@ class _AddInstructionsState extends State<AddInstructions> {
                     spacing: 8,
                     children: [
                       Steps3(title: '1 Details', active: false),
-                      Steps3(title: '2 Ingredients', active: true),
-                      Steps3(title: '3 Steps', active: false),
+                      Steps3(title: '2 Ingredients', active: false),
+                      Steps3(title: '3 Steps', active: true),
                     ],
                   ),
                 ],

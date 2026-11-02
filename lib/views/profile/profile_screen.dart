@@ -109,7 +109,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
+void recipesowdialog(){
+   showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
 
+          title: Text(
+            'About RecipeNest',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+
+          content: Text(
+            'RecipeNest helps you save, organise, '
+            'and manage your favourite recipes '
+            'in one place.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: Text('OK', style: TextStyle(color: AppColors.primary)),
+            ),
+          ],
+        );
+      },
+    );
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -232,7 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.info,
                       title: 'About RecipeNest',
                       onTap: () {
-                        _showAboutDialog(context);
+                        recipesowdialog();
                       },
                     ),
                     //my recipe
@@ -261,40 +291,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  // Statistics Card
-
-  void _showAboutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
-          ),
-
-          title: Text(
-            'About RecipeNest',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-
-          content: Text(
-            'RecipeNest helps you save, organise, '
-            'and manage your favourite recipes '
-            'in one place.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-              },
-              child: Text('OK', style: TextStyle(color: AppColors.primary)),
-            ),
-          ],
-        );
-      },
     );
   }
 }

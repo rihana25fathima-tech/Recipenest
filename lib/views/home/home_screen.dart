@@ -32,16 +32,13 @@ class HomeScreenState extends State<HomeScreen> {
     savedRecipes = recipeService.getRecipe();
     setState(() {});
   }
-  void refreshRecipes() {
-    setState(() {
-      savedRecipes = recipeService.getRecipe();
-    });
-  }
+
   @override
   void initState() {
     super.initState();
     loadRecipes();
   }
+
 
   //sarch bar
   List<RecipeModel> get filterRecipes {
@@ -56,13 +53,17 @@ class HomeScreenState extends State<HomeScreen> {
     String searchText = searchController.text.trim().toLowerCase();
     if (searchText.isNotEmpty) {
       recipes = recipes.where((recipe) {
-        return recipe.name.toLowerCase().contains(searchText) ||
-            recipe.ingredients.toLowerCase().contains(searchText);
+        return recipe.name.toLowerCase().contains(searchText);
+        // recipe.ingredients.toLowerCase().contains(searchText);
       }).toList();
     }
-
     return recipes;
-    
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -213,7 +214,6 @@ class HomeScreenState extends State<HomeScreen> {
                               recipe.isFavorite = !recipe.isFavorite;
                             });
                             await recipeService.updateRecipe(index, recipe);
-
                           },
                         ),
                   ],
