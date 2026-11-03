@@ -54,7 +54,6 @@ class HomeScreenState extends State<HomeScreen> {
     if (searchText.isNotEmpty) {
       recipes = recipes.where((recipe) {
         return recipe.name.toLowerCase().contains(searchText);
-        // recipe.ingredients.toLowerCase().contains(searchText);
       }).toList();
     }
     return recipes;

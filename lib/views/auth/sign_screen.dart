@@ -49,6 +49,7 @@ class _SignScreenState extends State<SignScreen> {
     //register user
     bool success = await authService.register(name, email, password);
    if(!mounted) return;
+   
     if (!success) {
       ScaffoldMessenger.of(
         context,

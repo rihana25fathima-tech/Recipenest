@@ -62,7 +62,6 @@ class InstructionList extends StatelessWidget {
               Spacer(),
               IconButton(
                 onPressed: onDelete,
-
                 icon: Icon(
                   Icons.delete_outline,
                   size: 20,

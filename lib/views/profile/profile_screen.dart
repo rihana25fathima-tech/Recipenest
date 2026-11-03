@@ -26,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void updateRecipeCount() {
     setState(() {
       totalRecipes = recipeBox.length;
-
       favoriteRecipes = recipeBox.values
           .where((recipe) => recipe.isFavorite)
           .length;

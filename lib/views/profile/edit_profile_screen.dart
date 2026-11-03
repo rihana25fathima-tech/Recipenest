@@ -25,14 +25,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     loadUser();
   }
   Future<void> loadUser() async {
-
-  // Get logged-in email from SharedPreferences
+  // Get
   String? email = await authService.getLoggedInUser();
 
   if (email == null) return;
 
   final userBox = Hive.box<UserModel>('open');
-
   // Find user using email
   currentUser = userBox.values.firstWhere(
     (user) => user.email == email,
@@ -180,9 +178,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           return;
                         }
                         final userBox = Hive.box<UserModel>('open');
-                        // Update existing name
-                        // currentUser.name = newName;
-
                         // Save updated user in Hive
                         int index = userBox.values.toList().indexWhere(
                           (user) => user.isLoggedIn == true,
@@ -190,18 +185,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         if (index == -1) {
                           return;
                         }
-
-                        // Get current user
-                        currentUser = userBox.getAt(index)!;
-
                         // Update name
                         currentUser.name = newName;
-
                         // Save in Hive
                         await userBox.putAt(index, currentUser);
-
                         if (!context.mounted) return;
-
                         // Close edit page
                         Navigator.pop(context, true);
                       },

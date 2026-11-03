@@ -69,24 +69,19 @@ class _AddInstructionsState extends State<AddInstructions> {
       );
       return;
     }
-
-    final String instruction = instructionController
-        .asMap()
-        .entries
-        .map((entry) {
-          final text = entry.value.text.trim();
-          if (text.isEmpty) {
-            return '';
-          }
-          return 'Step ${entry.key + 1}: $text';
-        })
-        .where((step) => step.isNotEmpty)
-        .join('\n');
+    List<String> steps = [];
+    for (int i = 0; i < instructionController.length; i++) {
+      String text = instructionController[i].text.trim();
+      if (text.isNotEmpty) {
+        steps.add('Step ${i + 1}: $text');
+      }
+    }
+    final String instruction = steps.join('\n');
 
     //instructin valisation
     if (instruction.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter cooking instructions')),
+        SnackBar(content: Text('Please enter cooking instructions')),
       );
       return;
     }
@@ -134,7 +129,6 @@ class _AddInstructionsState extends State<AddInstructions> {
       Navigator.pop(context, true);
     } catch (error) {
       if (!mounted) return;
-
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Failed to save recipe: $error')));
@@ -251,26 +245,12 @@ class _AddInstructionsState extends State<AddInstructions> {
                       ],
                     ),
                     SizedBox(height: 15),
-
-                    ...instructionController.asMap().entries.map((e) {
-                      final index = e.key;
+                    ...List.generate(instructionController.length, (index) {
                       return InstructionList(
-                        number: '${index + 1} ',
+                        number: '${index + 1}',
                         step: 'Step ${index + 1}',
-                        controller: e.value,
-                        onChanged: (value) {
-                          instructinText = instructionController
-                              .asMap()
-                              .entries
-                              .map((en) {
-                                final text = en.value.text.trim();
-                                return text.isEmpty
-                                    ? ''
-                                    : 'Step ${en.key + 1}: $text';
-                              })
-                              .where((step) => step.isNotEmpty)
-                              .join('\n');
-                        },
+                        controller: instructionController[index],
+                        onChanged: (value) {},
                         onDelete: () {
                           setState(() {
                             instructionController[index].dispose();

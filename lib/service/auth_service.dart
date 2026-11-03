@@ -42,7 +42,6 @@ class AuthService {
         await bbox.putAt(i, user);
         // SharedPreferences
         final prefs = await SharedPreferences.getInstance();
-
         await prefs.setBool('isLoggedIn', true);
         await prefs.setString('userEmail', user.email);
         return true;

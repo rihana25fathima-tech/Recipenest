@@ -14,9 +14,8 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
   final favoriteKey = GlobalKey<FavoriteScreenState>();
-  final homeKey = GlobalKey<HomeScreenState>();
   late final List<Widget> pages = [
-    HomeScreen(key: homeKey),
+    HomeScreen(),
     FavoriteScreen(key: favoriteKey),
     ProfileScreen(),
   ];

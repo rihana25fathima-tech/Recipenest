@@ -148,7 +148,9 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
         ),
 
         ElevatedButton(
-          onPressed: isLoading ? null : updatePassword,
+          onPressed: isLoading 
+          ? null 
+          : updatePassword,
 
           style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
           child: isLoading

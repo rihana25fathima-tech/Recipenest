@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_next/model/recipe_model.dart';
@@ -35,11 +34,11 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   File? selectedImage;
   //image picker function
   Future<void> pickRecipeImage() async {
-    XFile? image = await imagePicker.pickImage(
+    final image = await imagePicker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 80,
     );
-    if (image != null) {
+    if (image != null && mounted) {
       setState(() {
         selectedImage = File(image.path);
       });
@@ -77,6 +76,12 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       }
     }
     argumentsLoaded = true;
+  }
+  @override
+  void dispose() {
+    reciepenamecontroller.dispose();
+    timecontroller.dispose();
+    super.dispose();
   }
 
   @override

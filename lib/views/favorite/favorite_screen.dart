@@ -21,7 +21,6 @@ class FavoriteScreenState extends State<FavoriteScreen> {
 
   void loadFavoriteRecipes() {
     final recipes = recipeService.getRecipe();
-
     favoriteRecipes = recipes.where((recipe) => recipe.isFavorite).toList();
   }
 
@@ -112,24 +111,13 @@ class FavoriteScreenState extends State<FavoriteScreen> {
                       },
                       onFavouriteTap: () async {
                         final allRecipes = recipeService.getRecipe();
-                        final index = allRecipes.indexWhere(
-                          (item) =>
-                              item.name == recipe.name &&
-                              item.category == recipe.category,
-                        );
-
+                        final index = allRecipes.indexOf(recipe);
                         if (index == -1) return;
-
                         recipe.isFavorite = false;
                         await recipeService.updateRecipe(index, recipe);
-
                         if (!mounted) return;
                         setState(() {
-                          favoriteRecipes.removeWhere(
-                            (item) =>
-                                item.name == recipe.name &&
-                                item.category == recipe.category,
-                          );
+                          favoriteRecipes.remove(recipe);
                         });
                       },
                     ),

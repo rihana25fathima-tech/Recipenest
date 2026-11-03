@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:recipe_next/model/recipe_model.dart';
 import 'package:recipe_next/routes/app_routes.dart';
@@ -25,18 +26,10 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
     if (!mounted) return;
     Navigator.pop(context, true);
   }
-
-  int getRecipeIndex(RecipeModel recipe) {
-    return recipeService.getRecipe().indexWhere(
-      (item) => identical(item, recipe),
-    );
-  }
-
   Future<void> update(RecipeModel recipe) async {
-    final index = getRecipeIndex(recipe);
+    final index = recipeService.getRecipe().indexOf(recipe);
+
     if (index == -1) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Recipe not found')));
       return;
     }
     final result = await Navigator.pushNamed(
@@ -54,11 +47,11 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final recipe = ModalRoute.of(context)!.settings.arguments as RecipeModel;
-    final List<String> ingredient = recipe.ingredients
+    final ingredient = recipe.ingredients
         .split(',')
         .where((item) => item.trim().isNotEmpty)
         .toList();
-    final List<String> instructions = recipe.instruction
+    final instructions = recipe.instruction
         .split('\n')
         .where((step) => step.trim().isNotEmpty)
         .toList();
@@ -186,22 +179,17 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                           ),
 
                           SizedBox(height: 8),
-                          //ing list dyanmic
-                          ...ingredient.map((item) {
-                            final parts = item.split(' - ');
-                            final String name = parts.first.trim();
-                            final String quantity = parts.length > 1
-                                ? parts.sublist(1).join(' - ').trim()
-                                : '';
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 5),
-                              child: Ingrediitemss(
-                                name: name,
-                                quantity: quantity,
-                              ),
+                   
+                          ...List.generate(ingredient.length, (index) {
+                            final parts = ingredient[index].split(' - ');
+
+                            return Ingrediitemss(
+                              name: parts.first.trim(),
+                              quantity: parts.length > 1
+                                  ? parts.last.trim()
+                                  : '',
                             );
                           }),
-
                           SizedBox(height: 20),
 
                           Row(
@@ -227,28 +215,23 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                             ],
                           ),
                           SizedBox(height: 8),
-                          ...instructions.asMap().entries.map((entry) {
-                            final int index = entry.key;
-                            final String step = entry.value.trim();
-                            // "Step 1: " remove cheyyunnu
-                            final String description = step.replaceFirst(
-                              RegExp(
-                                r'^Step\s+\d+\s*:\s*',
-                                caseSensitive: false,
-                              ),
-                              '',
-                            );
-                            return Padding(
-                              padding:  EdgeInsets.only(bottom: 10),
+                         
+                          ...List.generate(instructions.length, (index) {
+                            final description = instructions[index]
+                                .replaceFirst(
+                                  RegExp(
+                                    r'^Step\s+\d+\s*:\s*',
+                                    caseSensitive: false,
+                                  ),
+                                  '',
+                                );
 
-                              child: Instructionitem(
-                                number: '${index + 1}',
-                                title: 'Step ${index + 1}',
-                                description: description,
-                              ),
+                            return Instructionitem(
+                              number: '${index + 1}',
+                              title: 'Step ${index + 1}',
+                              description: description,
                             );
                           }),
-
                           SizedBox(height: 24),
                         ],
                       ),

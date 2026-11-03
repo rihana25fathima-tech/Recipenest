@@ -38,7 +38,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
 
         ingredients = items.map((item) {
           final parts = item.split(' - ');
-          return <String, String>{
+          return {
             'name': parts.first.trim(),
             'quantity': parts.length > 1
                 ? parts.sublist(1).join(' - ').trim()
@@ -206,8 +206,10 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                             width: double.infinity,
                             child: OutlinedButton.icon(
                               onPressed: () {
-                                String ingredient = ingredientControlle.text.trim();
-                                String quantity = quantityController.text.trim();
+                                String ingredient = ingredientControlle.text
+                                    .trim();
+                                String quantity = quantityController.text
+                                    .trim();
 
                                 if (ingredient.isEmpty || quantity.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -224,10 +226,9 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                                     'name': ingredient,
                                     'quantity': quantity,
                                   });
-
-                                  ingredientControlle.clear();
-                                  quantityController.clear();
                                 });
+                                ingredientControlle.clear();
+                                quantityController.clear();
                               },
                               icon: Icon(
                                 Icons.add,
@@ -283,13 +284,11 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    ...ingredients.asMap().entries.map((e) {
-                      int index = e.key;
-                      Map<String, String> ingredient = e.value;
+                    ...List.generate(ingredients.length, (index) {
                       return IngredientsList(
                         number: '${index + 1}',
-                        name: ingredient['name'] ?? '',
-                        quantity: ingredient['quantity'] ?? '',
+                        name: ingredients[index]['name'] ?? '',
+                        quantity: ingredients[index]['quantity'] ?? '',
                         onDelete: () {
                           setState(() {
                             ingredients.removeAt(index);
@@ -335,9 +334,8 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                       );
                       return;
                     }
-                    final String ingredienttext = ingredients
-                        .map(
-                          (items) => '${items['name']} - ${items['quantity']}',
+                    final  ingredienttext = ingredients
+                        .map((items) => '${items['name']} - ${items['quantity']}',
                         )
                         .join(',');
                     final result = await Navigator.pushNamed(
