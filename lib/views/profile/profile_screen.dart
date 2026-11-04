@@ -108,8 +108,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
-void recipesowdialog(){
-   showDialog(
+
+  void recipesowdialog() {
+    showDialog(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
@@ -138,7 +139,8 @@ void recipesowdialog(){
         );
       },
     );
-}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -253,9 +255,8 @@ void recipesowdialog(){
                         ),
                       ],
                     ),
-
                     SizedBox(height: 8),
-                 
+
                     // About RecipeNest
                     BuildMenuItem(
                       icon: Icons.info,

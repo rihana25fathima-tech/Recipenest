@@ -15,29 +15,55 @@ class LoginScren extends StatefulWidget {
 class _LoginScrenState extends State<LoginScren> {
   TextEditingController emailcontroler = TextEditingController();
   TextEditingController passwordcontroler = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
   final authService = AuthService();
   bool isPasswordVisible = false;
+  String? errorMessage;
   void login() async {
-    String email = emailcontroler.text.trim();
-    String password = passwordcontroler.text.trim();
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please enter your email and password")),
-      );
+    if (!_formKey.currentState!.validate()) {
       return;
     }
+
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
+
+    String email = emailcontroler.text.trim();
+    String password = passwordcontroler.text.trim();
+
     if (!email.endsWith("@gmail.com")) {
       email = "$email@gmail.com";
     }
-
-    bool success = await authService.login(email, password);
-    if (!mounted) return;
-    if (success) {
-      Navigator.pushReplacementNamed(context, AppRoutes.bottomNavigationBar);
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Invalid username or password")));
+    try {
+      bool success = await authService.login(email, password);
+      if (!mounted) return;
+      if (success) {
+        Navigator.pushReplacementNamed(context, AppRoutes.bottomNavigationBar);
+      } else {
+        setState(() {
+          errorMessage = "Invalid username or password";
+        });
+        Future.delayed(Duration(seconds: 3), () {
+          if (mounted) {
+            setState(() {
+              errorMessage = null;
+            });
+          }
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        errorMessage = "Something went wrong. Please try again.";
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -118,57 +144,80 @@ class _LoginScrenState extends State<LoginScren> {
                         ),
                       ),
                       SizedBox(height: 30),
-                      // email
-                      Text(
-                        'Email Address',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.text1,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      //email field
-                      CustomTextField(
-                        hintText: "Enter your email",
-                        controller: emailcontroler,
-                        prefixIcon: Icons.email_outlined,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        'Password',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.text1,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      CustomTextField(
-                        hintText: 'Enter your password',
-                        controller: passwordcontroler,
-                        prefixIcon: Icons.lock_outline,
-                        obscureText: !isPasswordVisible,
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isPasswordVisible = !isPasswordVisible;
-                            });
-                          },
-                          icon: Icon(
-                            isPasswordVisible
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                            color: AppColors.textsec,
-                          ),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // email
+                            Text(
+                              'Email Address',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: AppColors.text1,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            //email field
+                            CustomTextField(
+                              hintText: "Enter your email",
+                              controller: emailcontroler,
+                              prefixIcon: Icons.email_outlined,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "Please enter your email";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              'Password',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: AppColors.text1,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            CustomTextField(
+                              hintText: 'Enter your password',
+                              controller: passwordcontroler,
+                              prefixIcon: Icons.lock_outline,
+                              obscureText: !isPasswordVisible,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter your password";
+                                }
+                                return null;
+                              },
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isPasswordVisible = !isPasswordVisible;
+                                  });
+                                },
+                                icon: Icon(
+                                  isPasswordVisible
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                  color: AppColors.textsec,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.forgorpasword);
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.forgorpasword,
+                            );
                           },
                           child: Text(
                             "Forgot Password?",
@@ -180,18 +229,29 @@ class _LoginScrenState extends State<LoginScren> {
                           ),
                         ),
                       ),
+                      if (errorMessage != null)
+                        Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Center(
+                            child: Text(
+                              errorMessage!,
+                              style: TextStyle(color: Colors.red, fontSize: 13),
+                            ),
+                          ),
+                        ),
+
                       Spacer(),
                       SizedBox(
                         width: double.infinity,
                         child: CustomButton(
-                          text: 'Login',
-                          onpressed: () {
-                            login();
-                          },
+                          text: isLoading ? 'Please wait...' : 'Login',
+                          onpressed: login,
+                          isLoading: isLoading,
                           icon: Icons.login,
                         ),
                       ),
                       SizedBox(height: 16),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

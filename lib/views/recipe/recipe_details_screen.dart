@@ -138,7 +138,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                                 child: Recipeinfocard(
                                   icon: Icons.access_time,
                                   title: "Cook Time",
-                                  value: '${recipe.cookinTime} mins',
+                                  value: '${recipe.cookinTime} ',
                                 ),
                               ),
 

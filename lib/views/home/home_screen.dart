@@ -197,7 +197,7 @@ class HomeScreenState extends State<HomeScreen> {
 
                           recipeName: recipe.name,
                           category: recipe.category,
-                          cookingTime: '${recipe.cookinTime} mins',
+                          cookingTime: '${recipe.cookinTime} ',
                           difficulty: recipe.difficulty,
                           imageUrl: recipe.image,
                           isFavourite: recipe.isFavorite,

@@ -32,7 +32,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
       }
 
       final recipe = recipedetails['editingRecipe'];
-
+//list
       if (recipe is RecipeModel && recipe.ingredients.trim().isNotEmpty) {
         final items = recipe.ingredients.split(',');
 

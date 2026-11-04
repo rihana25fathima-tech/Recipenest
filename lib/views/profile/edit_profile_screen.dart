@@ -24,24 +24,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     namecontroller = TextEditingController();
     loadUser();
   }
+
   Future<void> loadUser() async {
-  // Get
-  String? email = await authService.getLoggedInUser();
+    // Get
+    String? email = await authService.getLoggedInUser();
 
-  if (email == null) return;
+    if (email == null) return;
 
-  final userBox = Hive.box<UserModel>('open');
-  // Find user using email
-  currentUser = userBox.values.firstWhere(
-    (user) => user.email == email,
-  );
+    final userBox = Hive.box<UserModel>('open');
+    // Find user using email
+    currentUser = userBox.values.firstWhere((user) => user.email == email);
 
-  namecontroller.text = currentUser.name;
+    namecontroller.text = currentUser.name;
 
-  if (mounted) {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
-}
 
   @override
   void dispose() {

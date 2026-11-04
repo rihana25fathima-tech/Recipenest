@@ -28,7 +28,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
 
     if (!email.contains('@')) {
       email = '$email@gmail.com';
-    } 
+    }
     if (password.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Password must be at least 6 characters')),

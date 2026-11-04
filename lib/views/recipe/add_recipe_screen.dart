@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_next/model/recipe_model.dart';
@@ -60,7 +61,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       editingRecipe = args['recipe'] as RecipeModel?;
       editingIndex = args['index'] as int?;
     }
-//exist
+    //exist
     if (editingRecipe != null) {
       reciepenamecontroller.text = editingRecipe!.name;
       timecontroller.text = editingRecipe!.cookinTime;
@@ -77,6 +78,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
     }
     argumentsLoaded = true;
   }
+
   @override
   void dispose() {
     reciepenamecontroller.dispose();

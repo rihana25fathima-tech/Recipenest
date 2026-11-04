@@ -5,11 +5,13 @@ class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onpressed;
   final IconData? icon;
+  final bool isLoading;
   const new({
     super.key,
     required this.text,
     required this.onpressed,
     this.icon,
+    this.isLoading = false,
   });
 
   @override
@@ -18,7 +20,7 @@ class CustomButton extends StatelessWidget {
       width: double.infinity,
       height: 48,
       child: ElevatedButton(
-        onPressed: onpressed,
+        onPressed: isLoading ? null : onpressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.text,
@@ -28,17 +30,29 @@ class CustomButton extends StatelessWidget {
           ),
         ),
 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              text,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-            if (icon != null) ...[SizedBox(width: 8), Icon(icon, size: 18)],
-          ],
-        ),
+        child: isLoading
+            ? SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  if (icon != null) ...[
+                    SizedBox(width: 8),
+                    Icon(icon, size: 18),
+                  ],
+                ],
+              ),
       ),
     );
   }
