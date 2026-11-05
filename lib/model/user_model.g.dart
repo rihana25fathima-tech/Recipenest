@@ -20,7 +20,8 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       name: fields[0] as String,
       email: fields[1] as String,
       password: fields[2] as String,
-      isLoggedIn: fields[3] as bool ,
+      // isLoggedIn: fields[3] as bool,
+      isLoggedIn: fields[3] as bool? ?? false,
     );
   }
 

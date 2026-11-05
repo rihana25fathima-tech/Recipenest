@@ -65,15 +65,23 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
 
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.primary,
+       shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(24),
+    side: BorderSide(
+      color: Colors.black,
+      width: 1.5,
+    ),
+  ),
       title: Row(
         children: [
-          Icon(Icons.lock_reset, color: AppColors.primary, size: 25),
+          Icon(Icons.lock_reset, color: AppColors.text, size: 25),
           SizedBox(width: 8),
           Text(
             'Forgot Password?',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),
           ),
         ],
       ),
@@ -144,7 +152,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Cancel', style: TextStyle(color: AppColors.textsec)),
+          child: Text('Cancel', style: TextStyle(color: AppColors.text1)),
         ),
 
         ElevatedButton(
@@ -152,7 +160,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
           ? null 
           : updatePassword,
 
-          style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+          style: ElevatedButton.styleFrom(backgroundColor:const Color.fromRGBO(240, 118, 81, 1)),
           child: isLoading
               ? SizedBox(
                   height: 20,
@@ -162,7 +170,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                     strokeWidth: 2,
                   ),
                 )
-              : Text('Update Password', style: TextStyle(color: Colors.white)),
+              : Text('Update Password', style: TextStyle(color: Colors.black)),
         ),
       ],
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_next/routes/app_routes.dart';
 import 'package:recipe_next/service/auth_service.dart';
 import 'package:recipe_next/theme/app_colors.dart';
+import 'package:recipe_next/views/auth/forgot_paas.dart';
 import 'package:recipe_next/widget/custom_button.dart';
 import 'package:recipe_next/widget/custom_text_field.dart';
 
@@ -214,9 +215,12 @@ class _LoginScrenState extends State<LoginScren> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.forgorpasword,
+                            showDialog(
+                              context: context,
+                              barrierColor: Colors.transparent,
+                              
+                              builder: (context) =>
+                                  ForgotPasswordDialog(),
                             );
                           },
                           child: Text(

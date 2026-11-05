@@ -13,11 +13,9 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => HomeScreenState();
 }
-
 class HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
   String selectedCatagory = 'All';
-
   final List<String> categories = [
     'All',
     'Breakfast',
@@ -38,7 +36,6 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
     loadRecipes();
   }
-
 
   //sarch bar
   List<RecipeModel> get filterRecipes {
